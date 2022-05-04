@@ -1,10 +1,14 @@
 <script>
-	export let name;
+	import {io} from "socket.io-client"
+	const socket = io("localhost:3000")
+	socket.on("connect", () => {
+		socket.emit("test", {data: socket.id})
+	})
+	
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<p>This is a test</p>
 </main>
 
 <style>
