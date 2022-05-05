@@ -1,4 +1,4 @@
-import "dotenv/config" // short hand for the import + config()
+import "dotenv/config"
 import express from "express"
 import http from "http"
 import session from "express-session"
@@ -22,22 +22,15 @@ app.use(accountRouter)
 
 const server = http.createServer(app)
 
-// import {io} from "./sockets/connection.js"
 import {Server} from "socket.io"
 const io = new Server(server) // the namespace
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 io.use(wrap(sessionMiddleware))
 
-//export default io
-// import connectTest from "./sockets/connection.js"
-// connectTest(io)
 import connection from './sockets/connection.js'
 io.on("connection", (socket) => {
     connection(socket)
-    // socket.on("test", (data) => {
-    //     console.log(data)
-    // })
 })
 
 
