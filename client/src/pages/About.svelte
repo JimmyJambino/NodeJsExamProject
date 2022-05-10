@@ -3,9 +3,9 @@
 </script>
 
 <div>
-    <h3>Frontpage</h3>
+<h3>About</h3>
 </div>
 
 <style>
-
+    
 </style>
