@@ -1,10 +1,10 @@
 import {Router} from "express"
 
-const router = Router()
+const accountRouter = Router()
 
 // Sign up
 // Login
 // Logout
 // Update
 
-export default router
+export default accountRouter
