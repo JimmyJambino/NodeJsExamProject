@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { readAllQuestions, readQuestions, readRandomQuestions, createQuestion } from "../database/crudFunctions/crudQuestions.js"
+import { readAllQuestions, readQuestions, readRandomQuestions, createQuestion } from "../database/sqliteDB/crudFunctions/crudQuestions.js"
 
 const questionRouter = Router()
 

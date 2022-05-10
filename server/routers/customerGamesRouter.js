@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { readAllGamesByCustomerId, createCustomerGames, deleteCustomerGamesByIds } from "../database/crudFunctions/crudCustomerGames.js"
+import { readAllGamesByCustomerId, createCustomerGames, deleteCustomerGamesByIds } from "../database/sqliteDB/crudFunctions/crudCustomerGames.js"
 
 const customerGamesRouter = Router()
 
