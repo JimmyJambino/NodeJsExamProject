@@ -3,9 +3,9 @@
 </script>
 
 <div>
-    <h3>Frontpage</h3>
+<h3>Register</h3>
 </div>
 
 <style>
-
+    
 </style>
