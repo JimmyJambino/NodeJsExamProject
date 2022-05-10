@@ -32,6 +32,12 @@ const server = http.createServer(app)
 import {Server} from "socket.io"
 const io = new Server(server) // the namespace
 
+//admin pannel to see the current rooms and clients connected
+import { instrument } from "@socket.io/admin-ui"
+instrument(io,{
+    auth: false
+})
+
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 io.use(wrap(sessionMiddleware))
 
