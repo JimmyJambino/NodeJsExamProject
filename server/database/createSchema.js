@@ -60,7 +60,7 @@ db.exec(`CREATE TABLE IF NOT EXISTS questions (
     answer VARCHAR(50) NOT NULL
 )`)
 
-db.exec(`CREATE TABLE customer_games IF NOT EXISTS (
+db.exec(`CREATE TABLE IF NOT EXISTS customer_games  (
     customerId INTEGER NOT NULL,
     gameId INTEGER NOT NULL
 )`)

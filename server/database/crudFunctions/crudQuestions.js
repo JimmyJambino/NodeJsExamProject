@@ -23,23 +23,39 @@ async function createDummyQuestions() { // To fill out the database for testing,
     })
 }
 
+export function createQuestion(question) {
+    db.run(`INSERT INTO questions (question, answer) VALUES (?, ?)`, [question.question, question.answer])
+}
+
 // Works
-async function readAllQuestions() {
+export async function readAllQuestions() {
     const result = await db.all("SELECT * FROM questions")
     console.log(result)
     return result
 }
 
 // Doesn't work in the current context. Questions don't belong to a specific quiz / trivia at the moment.
-async function readQuestions(gameId) {
-    const result = await db.all("SELECT * FROM questions where gameId = ?", gameId)
+export async function readQuestions(gameId) {
+    const result = await db.all("SELECT * FROM questions WHERE gameId = ?", gameId)
     return result
+}
+
+export async function readRandomQuestions(gameId, number) {
+    let questionSet = Set()
+    const allQuestions = await db.all(`SELECT * FROM questions WHERE gameId = ?`, gameId)
+    
+    while(questionSet.length < number) {
+        const randomNumber = Math.floor(Math.random() * allQuestions.length);
+        questionSet.add(allQuestions[randomNumber])
+    }
+
+    return questionSet
 }
 
 // Works
 // We might not even need this? And remember to delete relations as well in the many-to-many tables.
 function deleteQuestion(questionId) {
-    db.run("DELETE 1 FROM questions where id = ?", questionId)
+    db.run("DELETE FROM questions where id = ?", questionId)
 }
 
 // Works

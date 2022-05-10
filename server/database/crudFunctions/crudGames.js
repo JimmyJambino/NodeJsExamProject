@@ -21,18 +21,22 @@ async function createDummyGames() { // To fill out the database for testing, lat
     })
 }
 
+export function createGame(game) {
+    db.run(`INSERT INTO games (name, price, description)`, [game.name, game.price, game.description])
+}
+
 //createDummyGames()
 
-async function readAllGames() {
+export async function readAllGames() {
     const result = await db.all("SELECT * FROM games")
     return result
 }
 
-// We might not even need this? And remember to delete relations as well in the many-to-many tables.
-function deleteGame(gameId) {
-    db.run("DELETE 1 FROM games where id = ?", gameId)
+export function updateGame(game) {
+    db.run("UPDATE games SET name = ?, price = ?, description = ?", [game.name, game.price, game.description])
 }
 
-function updateGame(game) {
-    db.run("UPDATE games SET name = ?, price = ?, description = ?", [game.name, game.price, game.description])
+// We might not even need this? And remember to delete relations as well in the many-to-many tables.
+export function deleteGame(gameId) {
+    db.run("DELETE FROM games where id = ?", gameId)
 }
