@@ -13,7 +13,9 @@
 
 
 	import {io} from "socket.io-client"
-	const socket = io("localhost:3000")
+	//function to get an individual socket
+	const socket = io("http://localhost:3000")
+	
 	socket.on("connect", () => {
 		socket.emit("test", {data: socket.id})
 	})

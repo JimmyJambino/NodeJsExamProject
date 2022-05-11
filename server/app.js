@@ -30,7 +30,11 @@ app.use("/api", questionRouter)
 const server = http.createServer(app)
 
 import {Server} from "socket.io"
-const io = new Server(server) // the namespace
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:8080"
+    }
+}) // the namespace
 
 //admin pannel to see the current rooms and clients connected
 import { instrument } from "@socket.io/admin-ui"

@@ -57,7 +57,7 @@
         <h3>Start game as a host</h3>
         <button class="button-71" on:click|preventDefault={handleHostSubmit}>Start new game</button>
     </div>
-   <Modal><Content/></Modal>
+   
 </div>
 </div>
 
