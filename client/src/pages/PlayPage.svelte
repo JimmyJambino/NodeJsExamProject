@@ -1,4 +1,7 @@
 <script>
+import { navigate } from "svelte-navigator";
+
+
 
     function handleJoinSubmit() {
         const givenInfo = {roomKey, playerName}
@@ -9,6 +12,7 @@
     function handleHostSubmit() {
         console.log("lolol");
 
+        navigate("room", {repalce:true})
         //TODO:
         //1.
         //look up user in req.session and see if a user is present.

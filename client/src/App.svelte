@@ -10,13 +10,30 @@
 	import PlayPage from "./pages/PlayPage.svelte"
 	import {currentUser, playTime} from "./store/generalStore.js"
 	import Register from "./pages/Register.svelte";
-
+	import RoomPage from "./pages/RoomPage.svelte";
+	import {onMount} from "svelte"
 
 	import {io} from "socket.io-client"
 	//function to get an individual socket
-	
 	const socket = io("http://localhost:3000")
+/*
+	const getSocket =  () => {
+		const clientSocket = io("http://localhost:3000")
+		socket.set(clientSocket)
+		console.log("lol",socket);
+		console.log($socket);
+	}
 
+	onMount( async () => {
+		await getSocket()
+		console.log("onMount");
+		console.log($socket.connected);
+		console.log($socket.id);
+		console.log($socket);
+	})
+*/
+
+	
 	socket.on("connect", () => {
 		socket.emit("test", {data: socket.id})
 	})
@@ -108,6 +125,9 @@
 		</Route>
 		<Route path="play">
 			<PlayPage/>
+		</Route>
+		<Route path="room" primary={false}>
+			<RoomPage socket={socket}/>
 		</Route>
 	</Router>
 </main>
