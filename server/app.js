@@ -1,6 +1,6 @@
 import "dotenv/config"
 import express from "express"
-import http from "http"
+import http, { Server } from "http"
 import session from "express-session"
 import accountRouter from "./routers/accountRouter.js"
 import gameRouter from "./routers/gameRouter.js"
@@ -29,8 +29,8 @@ app.use("/api", questionRouter)
 
 const server = http.createServer(app)
 
-import {Server} from "socket.io"
-const io = new Server(server, {
+import {Server as socketServer} from "socket.io"
+const io = new socketServer(server, {
     cors: {
         origin: "http://localhost:8080"
     }
