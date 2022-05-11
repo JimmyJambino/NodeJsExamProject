@@ -46,8 +46,12 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 io.use(wrap(sessionMiddleware))
 
 import connection from './sockets/connection.js'
+import {playerJoin, createRoom, helloMessage} from "./sockets/joinRoom.js"
 io.on("connection", (socket) => {
     connection(socket)
+    playerJoin(socket)
+    createRoom(socket)
+    helloMessage(socket)
 })
 
 

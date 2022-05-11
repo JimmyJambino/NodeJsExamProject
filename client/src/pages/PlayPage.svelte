@@ -1,14 +1,23 @@
 <script>
+import { navigate } from "svelte-navigator"
+export let socket
 
+socket.on("room:hello", (data) => {
+    console.log(data)
+})
     function handleJoinSubmit() {
         const givenInfo = {roomKey, playerName}
+        socket.emit("room:playerJoined", (givenInfo))
+        //socket.emit("room:hello", ({roomKey: givenInfo.roomKey, data: "Hello host."}))
+        
         //do something with this to join a room?
         //socket.to/join(roomKey) ?
     }
 
     function handleHostSubmit() {
-        console.log("lolol");
+        console.log("lolol")
 
+        navigate("room", {repalce:true})
         //TODO:
         //1.
         //look up user in req.session and see if a user is present.
@@ -25,8 +34,8 @@
 
     }
 
-    let roomKey;
-    let playerName;
+    let roomKey
+    let playerName
 </script>
 
 <div id="outmostDiv">
