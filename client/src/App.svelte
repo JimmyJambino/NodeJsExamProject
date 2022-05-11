@@ -124,7 +124,7 @@
 			<Register/>
 		</Route>
 		<Route path="play">
-			<PlayPage/>
+			<PlayPage socket={socket}/>
 		</Route>
 		<Route path="room" primary={false}>
 			<RoomPage socket={socket}/>

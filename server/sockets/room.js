@@ -11,7 +11,7 @@ function createRoom(socket, playerNumberCap){
 }
 
 function joinRoom(socket){
-    socket.on("room:join", ({roomCode}) => {
-        socket.join(roomCode)
+    socket.on("room:join", ({roomKey}) => {
+        socket.join(roomKey)
     })
 }

@@ -2,8 +2,8 @@
 
 import {onMount} from "svelte"
 
-export let socket;
-
+export let socket
+let roomKey
 let joinRoomButton
 let messageInput = ""
 let roomInput = ""
@@ -11,11 +11,24 @@ let form
 let messageContainer
 //import socket from "../App.svelte"
 
+socket.on("room:playerHasJoined", playerName => {
+    displayMessage(playerName)
+    console.log(playerName)
+}) 
+
 
 onMount( () => {
 
     displayMessage("lol")
     displayMessage(socket.id)
+    //socket.emit("hostJoined", ({roomKey: "poop"}))
+    socket.emit("room:hostJoined")
+    socket.on("room:displayRoomCode", (data) => {
+        roomKey = data.roomKey // roomKey
+        console.log("Roomkey:", roomKey)
+        displayMessage(roomKey)
+    })
+    
 })
 
 function handleSend() {
