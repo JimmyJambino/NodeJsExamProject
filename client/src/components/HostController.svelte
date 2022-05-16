@@ -5,12 +5,9 @@
     let players = []
     questions = async() => await fetch() // readRandomQuestions endpoint
 
-    function calculateScore() {
-        
-    }
+    function updateScore() {
 
-    import {io} from "socket.io-client"
-	const socket = io("http://localhost:3000")
+    }
 
 	socket.on("playerJoined", ({data}) => {
         if(players.length < maxPlayers) {

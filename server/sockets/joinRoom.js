@@ -29,7 +29,6 @@ export function createRoom(socket, playerNumberCap){
         socket.emit("room:displayRoomCode", {roomKey})
     })
     //make host join the room
-    
     //send the roomcode back to the host so it can be displayed
     
 }

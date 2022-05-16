@@ -5,13 +5,13 @@ function createRoom(socket, playerNumberCap){
     const roomCode = crypto.randomBytes(2).toString("hex")
     
     //make host join the room
-    hostSocket.join(roomCode)
+    hostSocket.join(roomKey)
     //send the roomcode back to the host so it can be displayed
-    hostSocket.emit("room:displayRoomCode", {roomCode})
+    hostSocket.emit("room:displayRoomCode", {roomKey})
 }
 
 function joinRoom(socket){
-    socket.on("room:join", ({roomKey}) => {
+    socket.on("room:playerJoin", ({roomKey}) => {
         socket.join(roomKey)
     })
 }
