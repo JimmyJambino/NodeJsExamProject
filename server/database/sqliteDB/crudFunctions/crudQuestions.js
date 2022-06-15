@@ -1,3 +1,4 @@
+/*
 import db from "../createConnection.js"
 
 class Question {
@@ -63,3 +64,5 @@ function updateQuestion(question) {
     db.run("UPDATE questions SET question = ?, answer = ? WHERE id = ?", [question.question, question.answer, question.id])
 }
 
+
+*/

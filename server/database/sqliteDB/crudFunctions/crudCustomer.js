@@ -30,14 +30,15 @@ async function readAllCustomers() {
 
 // update
 function updateCustomer(customer) {
-    db.run(`UPDATE customers SET firstName = ?, lastName = ?, email = ?`, [customer.firstName, customer.lastName, customer.email])
+    db.run(`UPDATE customers SET firstName = ?, lastName = ?, email = ? WHERE email = ?` , [customer.firstName, customer.lastName, customer.email,customer.email])
 }
 
+//TODO: customer.password might be wrong here.
 async function updateCustomerPassword(customer, newPassword) {
     // check if current password is true
     // set new hash password
     const result = await db.get(`SELECT hashedPassword from customers WHERE id = ?`, [customer.id])
-    const compared = await bcrypt.compare(result, customer.hashedPassword)
+    const compared = await bcrypt.compare(customer.password, result)
     if(compared) {
         const newHashedPassword = await bcrypt.hash(newPassword, saltRounds)
         db.run(`UPDATE customers SET hashedPassword = ? WHERE id = ?`, [newHashedPassword, customer.id])
