@@ -14,7 +14,7 @@ export function makeOptions(method, body) {
     }
     return opts;
 }
-
+// kode lol
 export async function insertCustomer(body) {
     const options = makeOptions("POST",body)
     const response = await fetch(url+"/customer/",options);
