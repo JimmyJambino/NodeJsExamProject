@@ -21,4 +21,4 @@ async function createDummyGames() { // To fill out the database for testing, lat
     })
 }
 
-createDummyGames()
+export default createDummyGames
