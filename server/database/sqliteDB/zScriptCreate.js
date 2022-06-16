@@ -6,3 +6,4 @@ console.log("Creating sqlite3 database with tables and dummy data...")
 await makeSchemas()
 await createDummyGames()
 await readAllGames()
+console.log(await readAllGames());
