@@ -1,5 +1,12 @@
 <script>
-    export let items;
+    export let items = [];
+    import { cartList } from "../../store/gamesStore";
+
+    function handleDelete(id) {
+        items = items.filter(game => game.id != id)
+        $cartList = items
+    }
+
 </script>
 
 {#each items as item}
@@ -10,7 +17,8 @@
         {:else}
         <td>{item[key]} </td> <!-- "key" would just give "name" or "email".. We need to specify it's from the item-->
         {/if}
-    {/each}
+        {/each}
+        <td><button on:click|preventDefault={handleDelete(item.id)}>Delete game</button></td>
     </tr>
 {/each}
 

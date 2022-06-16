@@ -17,7 +17,7 @@
 {#each header as head}
     <th on:click={sortTableByHeader} id={head}>{head}</th>
 {/each}
-
+    <th>Options</th>
 
 <style>
     th {
