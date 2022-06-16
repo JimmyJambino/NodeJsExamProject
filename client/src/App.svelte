@@ -9,11 +9,14 @@
 	import PrivateRoute from "./pages/PrivateRoute.svelte"
 	import PlayPage from "./pages/PlayPage.svelte"
 	import {currentUser, playTime} from "./store/generalStore.js"
-	import Register from "./pages/Register.svelte";
-	import RoomPage from "./pages/RoomPage.svelte";
+	import Register from "./pages/Register.svelte"
+	import RoomPage from "./pages/RoomPage.svelte"
+	import PlayerPage from "./pages/PlayerPage.svelte"
+	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte"
 	import {onMount} from "svelte"
 
 	import {io} from "socket.io-client"
+
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
 /*
@@ -128,6 +131,12 @@
 		</Route>
 		<Route path="room" primary={false}>
 			<RoomPage socket={socket}/>
+		</Route>
+		<Route path="player">
+			<PlayerPage socket={socket}/>
+		</Route>
+		<Route path="FibOrDib">
+			<HostFibOrDibPage socket={socket}/>
 		</Route>
 	</Router>
 </main>

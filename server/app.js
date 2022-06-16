@@ -5,7 +5,7 @@ import session from "express-session"
 import accountRouter from "./routers/accountRouter.js"
 import gameRouter from "./routers/gameRouter.js"
 import customerGamesRouter from "./routers/customerGamesRouter.js"
-import questionRouter from "./routers/questionRouter.js"
+//import questionRouter from "./routers/questionRouter.js"
 
 const app = express()
 app.use(express.urlencoded({ extended: true})) // how deep is the url encoding, extended in this case. Parsing forms and not json.
@@ -25,7 +25,7 @@ app.use(sessionMiddleware)
 app.use("/api", accountRouter)
 app.use("/api", gameRouter)
 app.use("/api", customerGamesRouter)
-app.use("/api", questionRouter)
+//app.use("/api", questionRouter)
 
 const server = http.createServer(app)
 
@@ -46,15 +46,14 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 io.use(wrap(sessionMiddleware))
 
 import connection from './sockets/connection.js'
-import {playerJoin, createRoom, helloMessage} from "./sockets/joinRoom.js"
+import {playerJoin, createRoom, helloMessage, startGame} from "./sockets/joinRoom.js"
 io.on("connection", (socket) => {
     connection(socket)
     playerJoin(socket)
     createRoom(socket)
+    startGame(socket)
     helloMessage(socket)
 })
-
-
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {

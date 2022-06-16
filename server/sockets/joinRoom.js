@@ -2,8 +2,12 @@ import crypto from "crypto";
 
 export function playerJoin(socket) {
     socket.on("room:playerJoined", (data) => {
-        socket.join(data.roomKey)
-        socket.to(data.roomKey).emit("room:playerHasJoined", data.playerName)
+        const player = {
+            name: data.playerName,
+            id: socket.id
+        }
+        socket.join(data.roomKey) 
+        socket.to(data.roomKey).emit("room:playerHasJoined", player)
     })
 }
 
@@ -31,6 +35,16 @@ export function createRoom(socket, playerNumberCap){
     //make host join the room
     //send the roomcode back to the host so it can be displayed
     
+}
+
+export function startGame(socket) {
+    socket.on("room:startGame", (data) => {
+        //socket.join(data.roomKey)
+        socket.to(data.roomKey).emit("room:gameStarted", {})
+        //socket.emit("room:gameStarted")
+        console.log("Host started game on:", data.roomKey)
+        // socket.to(data.roomKey).emit("room:playerHasJoined", data.playerName)
+    })
 }
 
 function joinRoom(socket){
