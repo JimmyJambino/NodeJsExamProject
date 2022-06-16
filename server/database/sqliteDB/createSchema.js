@@ -60,6 +60,7 @@ db.exec(`CREATE TABLE IF NOT EXISTS questions (
     answer VARCHAR(50) NOT NULL
 )`)
 
+//many to many relationship table
 db.exec(`CREATE TABLE IF NOT EXISTS customer_games  (
     customerId INTEGER NOT NULL,
     gameId INTEGER NOT NULL
