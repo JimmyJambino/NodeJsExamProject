@@ -8,7 +8,7 @@ import customerGamesRouter from "./routers/customerGamesRouter.js"
 //import questionRouter from "./routers/questionRouter.js"
 
 const app = express()
-app.use(express.urlencoded({ extended: true})) // how deep is the url encoding, extended in this case. Parsing forms and not json.
+app.use(express.json())
 
 import path from "path"
 app.use(express.static(path.resolve("../client/public/")))

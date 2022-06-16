@@ -1,7 +1,7 @@
 import db from "./createConnection.js"
 /*
 Developer note (aren't all notes for developers?) Tables to be created:
-customer = {
+account = {
     id,
     firstName,
     lastName,
@@ -26,12 +26,12 @@ questions = {
 
 // We could implement deleteMode (if true then) to control whether to drop or not.
 //db.exec(`DROP TABLE IF EXISTS orders`)
-db.exec(`CREATE TABLE IF NOT EXISTS customers (
+db.exec(`CREATE TABLE IF NOT EXISTS accounts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    firstName VARCHAR(50) NOT NULL,
-    lastName VARCHAR(50) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    hashedPassword VARCHAR(100) NOT NULL
+    hashed_password VARCHAR(100) NOT NULL
 );`)
 
 db.exec(`CREATE TABLE IF NOT EXISTS games (
