@@ -9,8 +9,10 @@
 	import PrivateRoute from "./pages/PrivateRoute.svelte"
 	import PlayPage from "./pages/PlayPage.svelte"
 	import {currentUser, playTime} from "./store/generalStore.js"
-	import Register from "./pages/Register.svelte";
-	import RoomPage from "./pages/RoomPage.svelte";
+	import Register from "./pages/Register.svelte"
+	import RoomPage from "./pages/RoomPage.svelte"
+	import DisplayGame from "./pages/DisplayGame.svelte"
+	import CartOverview from "./pages/CartOverview.svelte";
 	import {onMount} from "svelte"
 
 	import {io} from "socket.io-client"
@@ -73,6 +75,7 @@
 				{#if $currentUser == null}
 				<li><Link to="register">Register</Link></li>
 				{/if}
+				<li><Link to="cartList">Cart</Link></li>
 				
 			</ul>
 		</nav>
@@ -111,8 +114,13 @@
 		<Route path="about">
 			<About/>
 		</Route>
-		<Route path="store">
-			<Store/>
+		<Route path="store/*"  primary={false}>
+			<Route path="/">
+				<Store/>
+			</Route>
+			<Route path=":id" let:params>
+				<DisplayGame id={params.id}/>
+			</Route>
 		</Route>
 		<Route>
 			<MerchStorePage/>
@@ -128,6 +136,9 @@
 		</Route>
 		<Route path="room" primary={false}>
 			<RoomPage socket={socket}/>
+		</Route>
+		<Route path="cartList">
+			<CartOverview/>
 		</Route>
 	</Router>
 </main>
