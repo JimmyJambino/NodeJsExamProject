@@ -5,13 +5,14 @@ import db from "../createConnection.js"
 export function createCustomerGames(customerId, gameId) {
     db.run(`INSERT INTO customer_games VALUES (?, ?)`, customerId, gameId)
 }
-// read
 
+// read all the games of a customer
 export async function readAllGamesByCustomerId(customerId) {
     const result = await db.all(`SELECT * FROM customer_games WHERE customerId = ?`, customerId)
     return result
 }
 
+//total sales
 async function readAllCustomersByGameId(gameId) {
     const result = await db.all(`SELECT * FROM customer_games where gameId = ?`, gameId)
     return result
