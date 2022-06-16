@@ -1,5 +1,6 @@
 <script>
 import { navigate } from "svelte-navigator"
+//import {savedRoomKey} from "../store/generalStore.js"
 export let socket
 
 socket.on("room:hello", (data) => {
@@ -8,10 +9,7 @@ socket.on("room:hello", (data) => {
     function handleJoinSubmit() {
         const givenInfo = {roomKey, playerName}
         socket.emit("room:playerJoined", (givenInfo))
-        //socket.emit("room:hello", ({roomKey: givenInfo.roomKey, data: "Hello host."}))
-        
-        //do something with this to join a room?
-        //socket.to/join(roomKey) ?
+        navigate("player", {})
     }
 
     function handleHostSubmit() {
@@ -64,7 +62,7 @@ socket.on("room:hello", (data) => {
     <!-- Host section-->
     <div id="hostDiv">
         <h3>Start game as a host</h3>
-        <button class="button-71" on:click|preventDefault={handleHostSubmit}>Start new game</button>
+        <button class="button-71" on:click|preventDefault={handleHostSubmit}>Start new game</button><!-- select game from here in the future  -->
     </div>
    
 </div>

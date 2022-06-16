@@ -13,9 +13,12 @@
 	import RoomPage from "./pages/RoomPage.svelte"
 	import DisplayGame from "./pages/DisplayGame.svelte"
 	import CartOverview from "./pages/CartOverview.svelte";
+	import PlayerPage from "./pages/PlayerPage.svelte"
+	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte"
 	import {onMount} from "svelte"
 
 	import {io} from "socket.io-client"
+
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
 /*
@@ -139,6 +142,12 @@
 		</Route>
 		<Route path="cartList">
 			<CartOverview/>
+		</Route>
+		<Route path="player">
+			<PlayerPage socket={socket}/>
+		</Route>
+		<Route path="FibOrDib">
+			<HostFibOrDibPage socket={socket}/>
 		</Route>
 	</Router>
 </main>

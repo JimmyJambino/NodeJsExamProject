@@ -46,15 +46,14 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 io.use(wrap(sessionMiddleware))
 
 import connection from './sockets/connection.js'
-import {playerJoin, createRoom, helloMessage} from "./sockets/joinRoom.js"
+import {playerJoin, createRoom, helloMessage, startGame} from "./sockets/joinRoom.js"
 io.on("connection", (socket) => {
     connection(socket)
     playerJoin(socket)
     createRoom(socket)
+    startGame(socket)
     helloMessage(socket)
 })
-
-
 
 const PORT = process.env.PORT || 3000
 server.listen(PORT, () => {
