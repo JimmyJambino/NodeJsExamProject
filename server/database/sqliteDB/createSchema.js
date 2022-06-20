@@ -29,7 +29,8 @@ questions = {
 
 
 async function makeSchemas() {
-    await db.exec(`CREATE TABLE IF NOT EXISTS accounts (
+    await db.exec(`DROP TABLE IF EXISTS accounts;
+        CREATE TABLE IF NOT EXISTS accounts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,

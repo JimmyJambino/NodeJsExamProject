@@ -32,7 +32,7 @@ export async function readAllAccounts() {
 // update
 function updateAccount(account) {
     db.run(`UPDATE accounts SET first_name = ?, last_name = ?, email = ? WHERE email = ?` ,
-     [account.firstName, account.lastName, account.email,account.email])
+     [account.firstName, account.lastName, account.email, account.email])
 }
 
 //TODO: customer.password might be wrong here.

@@ -47,11 +47,14 @@
 	})
 	
 	let email = "lol@lol.dk"
-	let password = ""
+	let password = "lol123"
 
-	function handleLogInSubmit() {
-		$currentUser = "ikke null"
+	async function handleLogInSubmit() {
 		const givenInfo = {email, password}
+		const fetchedUserData = await fetchOneUser(givenInfo)
+		
+
+
 		navigate("/", {replace: true})
 	}
 

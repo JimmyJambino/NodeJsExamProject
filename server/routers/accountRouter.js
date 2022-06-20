@@ -28,12 +28,12 @@ router.post("/login", async (req, res) => {
     const loginDetails = req.body
 
     //check if email and password was sent to the server
-    if (!loginDetails.email && loginDetails.password){
+    if (!loginDetails.email || !loginDetails.password){
         throw new Error("missing email or password")
     }
     
-    const accountFromDb = await db.get("SELECT hashed_password FROM accounts WHERE email = $email",{$email: loginDetails.email})
-
+    const accountFromDb = await db.get("SELECT hashed_password FROM accounts WHERE email = ?", [loginDetails.email])
+    //compares with bcrypt
     const isValidLogin = await compare(loginDetails.password, accountFromDb.hashed_password)
 
     if(isValidLogin){

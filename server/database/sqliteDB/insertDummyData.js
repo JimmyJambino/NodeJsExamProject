@@ -1,4 +1,7 @@
 import db from "./createConnection.js"
+import bcrypt from "bcrypt"
+
+const saltRounds = 12
 
 class Game {
     constructor(id ,name, price, description) { 
@@ -26,5 +29,13 @@ export async function createDummyGames() { // To fill out the database for testi
         [game.name, game.price, game.description])
     })
 }
+
+export async function dummyAccount(){
+    const hashedPassword = await bcrypt.hash("lol123", saltRounds)
+    db.run(`INSERT INTO accounts (first_name, last_name, email, hashed_password) VALUES (?, ?, ?, ?)`,
+    ["Michael", "Westh", "lol@lol.dk", hashedPassword])
+}
+
+
 
 export default createDummyGames
