@@ -1,28 +1,4 @@
 import db from "./createConnection.js"
-/*
-Developer note (aren't all notes for developers?) Tables to be created:
-account = {
-    id,
-    firstName,
-    lastName,
-    email,
-    hashedPassword
-}
-
-games = {
-    id,
-    price,
-    description,
-
-}
-
-questions = {
-    id,
-    question,
-    answer
-}
-
-*/
 
 // We could implement deleteMode (if true then) to control whether to drop or not.
 //db.exec(`DROP TABLE IF EXISTS orders`)
