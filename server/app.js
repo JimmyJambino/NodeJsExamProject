@@ -30,7 +30,6 @@ app.use(sessionMiddleware)
 app.use("/api", accountRouter)
 app.use("/api", gameRouter)
 app.use("/api", customerGamesRouter)
-//app.use("/api", questionRouter)
 app.use("/api", paymentRouter)
 app.use("/api", questionRouter)
 

@@ -2,7 +2,6 @@ import db from "../database/sqliteDB/createConnection.js"
 import { Router } from "express"
 import { compare } from "bcrypt"
 import { createAccount } from "../database/sqliteDB/crudFunctions/crudAccounts.js"
-import {} from "express-session"
 
 const ROUNDS = 12
 
