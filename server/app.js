@@ -4,21 +4,25 @@ import http, { Server } from "http"
 import session from "express-session"
 import accountRouter from "./routers/accountRouter.js"
 import gameRouter from "./routers/gameRouter.js"
-import customerGamesRouter from "./routers/customerGamesRouter.js"
+import customerGamesRouter from "./routers/accountsGamesRouter.js"
+import questionRouter from "./routers/questionRouter.js"
 import paymentRouter from "./routers/paymentRouter.js"
-//import questionRouter from "./routers/questionRouter.js"
 
 const app = express()
-app.use(express.urlencoded({ extended: true})) // how deep is the url encoding, extended in this case. Parsing forms and not json.
+app.use(express.json())
 
 import path from "path"
 app.use(express.static(path.resolve("../client/public/")))
 
-const sessionMiddleware = session({ 
+const sessionMiddleware = session({
+    name: "session",
     secret: process.env.SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: {secure: false}
+    saveUninitialized: false,
+    cookie: {
+		httpOnly: true,
+		secure: false
+	}
 })
 
 app.use(express.json())
@@ -28,6 +32,7 @@ app.use("/api", gameRouter)
 app.use("/api", customerGamesRouter)
 //app.use("/api", questionRouter)
 app.use("/api", paymentRouter)
+app.use("/api", questionRouter)
 
 const server = http.createServer(app)
 
