@@ -5,6 +5,7 @@ import session from "express-session"
 import accountRouter from "./routers/accountRouter.js"
 import gameRouter from "./routers/gameRouter.js"
 import customerGamesRouter from "./routers/customerGamesRouter.js"
+import paymentRouter from "./routers/paymentRouter.js"
 //import questionRouter from "./routers/questionRouter.js"
 
 const app = express()
@@ -26,6 +27,7 @@ app.use("/api", accountRouter)
 app.use("/api", gameRouter)
 app.use("/api", customerGamesRouter)
 //app.use("/api", questionRouter)
+app.use("/api", paymentRouter)
 
 const server = http.createServer(app)
 
