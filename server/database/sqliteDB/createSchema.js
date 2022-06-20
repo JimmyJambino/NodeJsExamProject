@@ -1,7 +1,7 @@
 import db from "./createConnection.js"
 /*
 Developer note (aren't all notes for developers?) Tables to be created:
-customer = {
+account = {
     id,
     firstName,
     lastName,
@@ -29,13 +29,12 @@ questions = {
 
 
 async function makeSchemas() {
-    await db.exec(`DROP TABLE IF EXISTS customers;
-    CREATE TABLE IF NOT EXISTS customers (
+    await db.exec(`CREATE TABLE IF NOT EXISTS accounts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        firstName VARCHAR(50) NOT NULL,
-        lastName VARCHAR(50) NOT NULL,
+        first_name VARCHAR(50) NOT NULL,
+        last_name VARCHAR(50) NOT NULL,
         email VARCHAR(50) NOT NULL,
-        hashedPassword VARCHAR(100) NOT NULL
+        hashed_password VARCHAR(100) NOT NULL
     );`)
     
     await db.exec(`DROP TABLE IF EXISTS games;
@@ -46,18 +45,18 @@ async function makeSchemas() {
         description VARCHAR(150)
     );`)
     
-    // db.exec(`CREATE TABLE IF NOT EXISTS orders (
-    //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //     customerId INTEGER NOT NULL,
-    //     FOREIGN KEY(customerId) REFERENCES customers(id)
-    // );`)
+    await db.exec(`CREATE TABLE IF NOT EXISTS orders (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id INTEGER NOT NULL,
+        FOREIGN KEY(account_id) REFERENCES accounts(id)
+    );`)
     
-    await db.exec(`DROP TABLE IF EXISTS order_games;
-    CREATE TABLE IF NOT EXISTS order_games (
-        orderId INTEGER NOT NULL,
-        gamesId INTEGER NOT NULL,
-        FOREIGN KEY(orderId) REFERENCES orders(id),
-        FOREIGN KEY(gamesId) REFERENCES games(id)
+    await db.exec(`DROP TABLE IF EXISTS orders_games;
+    CREATE TABLE IF NOT EXISTS orders_games (
+        order_id INTEGER NOT NULL,
+        game_id INTEGER NOT NULL,
+        FOREIGN KEY(order_id) REFERENCES orders(id),
+        FOREIGN KEY(game_id) REFERENCES games(id)
     );`)
     
     await db.exec(`CREATE TABLE IF NOT EXISTS questions (
@@ -67,9 +66,9 @@ async function makeSchemas() {
     )`)
     
     //many to many relationship table
-    await db.exec(`CREATE TABLE IF NOT EXISTS customer_games  (
-        customerId INTEGER NOT NULL,
-        gameId INTEGER NOT NULL
+    await db.exec(`CREATE TABLE IF NOT EXISTS accounts_games  (
+        account_id INTEGER NOT NULL,
+        game_id INTEGER NOT NULL
     )`)
     
     

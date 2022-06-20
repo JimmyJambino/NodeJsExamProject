@@ -16,6 +16,7 @@ export async function readRandomQuestions(numberOfQuestions){
         const allQuestions = await readQuestions()
         const randomIndexesForQuestions = []
     
+        //throws an error with the max amount of questions you can request if requesting more questions than in db
         if(numberOfQuestions > allQuestions.length){
             throw new RangeError("Not enough questions", {cause: {
                 maxQuestions: allQuestions.length   
