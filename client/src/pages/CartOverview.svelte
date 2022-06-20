@@ -1,7 +1,8 @@
 <script>
     import { cartList } from "../store/gamesStore";
-    import {useNavigate} from "svelte-navigator"
+    import {navigate} from "svelte-navigator"
     import ItemTable from "../components/Table/ItemTable.svelte"
+    
     
 
     let headers = $cartList
@@ -9,12 +10,11 @@
         console.log("Ups");
         headers = Object.keys($cartList[0])
     }
-    
-    const jimmyGay = true
 
     function handleBuySubmit() {
-
+        navigate("paymentPage")
     }
+
 </script>
 
 <div>

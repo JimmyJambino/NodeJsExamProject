@@ -12,9 +12,12 @@
 	import Register from "./pages/Register.svelte"
 	import RoomPage from "./pages/RoomPage.svelte"
 	import DisplayGame from "./pages/DisplayGame.svelte"
-	import CartOverview from "./pages/CartOverview.svelte";
+	import CartOverview from "./pages/CartOverview.svelte"
 	import PlayerPage from "./pages/PlayerPage.svelte"
 	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte"
+	import PaymentPage from "./pages/PaymentPage.svelte"
+	import ThankYouPage from "./pages/ThankYouPage.svelte"
+	import PaymentFailed from "./pages/PaymentFailed.svelte"
 	import {onMount} from "svelte"
 
 	import {io} from "socket.io-client"
@@ -140,8 +143,17 @@
 		<Route path="room" primary={false}>
 			<RoomPage socket={socket}/>
 		</Route>
-		<Route path="cartList">
+		<Route path="cartList" >
 			<CartOverview/>
+		</Route>
+		<Route path="paymentPage" >
+			<PaymentPage navigate=navigate/>
+		</Route>
+		<Route path="thankYouPage">
+			<ThankYouPage/>
+		</Route>
+		<Route path="paymentFailed">
+			<PaymentFailed/>
 		</Route>
 		<Route path="player">
 			<PlayerPage socket={socket}/>
