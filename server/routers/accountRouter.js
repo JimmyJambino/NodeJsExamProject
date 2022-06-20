@@ -1,6 +1,8 @@
-import { Router } from "express"
-import { compare, hash } from "bcrypt"
 import db from "../database/sqliteDB/createConnection.js"
+import { Router } from "express"
+import { compare } from "bcrypt"
+import { createAccount } from "../database/sqliteDB/crudFunctions/crudAccounts.js"
+import {} from "express-session"
 
 const ROUNDS = 12
 
@@ -11,23 +13,13 @@ const router = Router()
 router.post("/signup", async (req, res) => {
     const providedDetails = req.body
 
-    console.log(req.body);
+    console.log(providedDetails)
     //TODO: validate provided email and password
 
 
-    const hashed_password = await hash(providedDetails.password.toString(), ROUNDS)
-
-    console.log(hashed_password);
-
-    // db.run("INSERT INTO accounts VALUES ($first_name, $last_name, $email, $hashed_password)", {
-    //     $first_name: providedDetails,
-    //     $last_name: providedDetails,
-    //     $email: providedDetails,
-    //     $hashed_password: hashed_password,
-    // })
+    createAccount(providedDetails)
     
     res.send({})
-
 })
 
 
@@ -40,17 +32,27 @@ router.post("/login", async (req, res) => {
         throw new Error("missing email or password")
     }
     
-
-    const accountFromDb = db.get("SELECT hashed_ password FROM accounts WHERE email = $email",{$email: loginDetails.email})
+    const accountFromDb = await db.get("SELECT hashed_password FROM accounts WHERE email = $email",{$email: loginDetails.email})
 
     const isValidLogin = await compare(loginDetails.password, accountFromDb.hashed_password)
 
-    //TODO: send session cookie or some other auth
-    res.send()
-
+    if(isValidLogin){
+        if(req.session.isLoggedIn){
+            console.log("already logged in");
+        }
+        console.log("valid")
+        req.session.isLoggedIn = true
+        res.send({isLoggedIn: true})
+    } else {
+        console.log("not valid");
+    }
 })
 
 // Logout
+router.post("/logout", (req, res) => {
+    req.session.destroy()
+    res.send({isLoggedIn: false})
+})
 // Update
 
 export default router
