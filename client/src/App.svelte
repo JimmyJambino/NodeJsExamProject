@@ -12,11 +12,14 @@
 	import Register from "./pages/Register.svelte"
 	import RoomPage from "./pages/RoomPage.svelte"
 	import DisplayGame from "./pages/DisplayGame.svelte"
-	import CartOverview from "./pages/CartOverview.svelte";
+	import CartOverview from "./pages/CartOverview.svelte"
 	import PlayerPage from "./pages/PlayerPage.svelte"
 	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte"
+	import PaymentPage from "./pages/PaymentPage.svelte"
+	import ThankYouPage from "./pages/ThankYouPage.svelte"
+	import PaymentFailed from "./pages/PaymentFailed.svelte"
 	import {onMount} from "svelte"
-
+	import {fetchOneUser} from "./store/util.js"
 	import {io} from "socket.io-client"
 
 	//function to get an individual socket
@@ -44,11 +47,14 @@
 	})
 	
 	let email = "lol@lol.dk"
-	let password = ""
+	let password = "lol123"
 
-	function handleLogInSubmit() {
-		$currentUser = "ikke null"
+	async function handleLogInSubmit() {
 		const givenInfo = {email, password}
+		const fetchedUserData = await fetchOneUser(givenInfo)
+		console.log("user:", fetchedUserData);
+		$currentUser = {data: "ikke null"} //TODO: FIKS LOL
+
 		navigate("/", {replace: true})
 	}
 
@@ -140,8 +146,17 @@
 		<Route path="room" primary={false}>
 			<RoomPage socket={socket}/>
 		</Route>
-		<Route path="cartList">
+		<Route path="cartList" >
 			<CartOverview/>
+		</Route>
+		<Route path="paymentPage" >
+			<PaymentPage navigate=navigate/>
+		</Route>
+		<Route path="thankYouPage">
+			<ThankYouPage/>
+		</Route>
+		<Route path="paymentFailed">
+			<PaymentFailed/>
 		</Route>
 		<Route path="player">
 			<PlayerPage socket={socket}/>
