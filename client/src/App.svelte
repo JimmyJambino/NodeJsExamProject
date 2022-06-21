@@ -21,6 +21,7 @@
 	import {onMount} from "svelte"
 	import {fetchOneUser} from "./store/util.js"
 	import {io} from "socket.io-client"
+import TestPage from "./pages/TestPage.svelte";
 
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
@@ -85,6 +86,7 @@
 				<li><Link to="register">Register</Link></li>
 				{/if}
 				<li><Link to="cartList">Cart</Link></li>
+				<li><Link to="test">test</Link></li>
 				
 			</ul>
 		</nav>
@@ -163,6 +165,9 @@
 		</Route>
 		<Route path="FibOrDib">
 			<HostFibOrDibPage socket={socket}/>
+		</Route>
+		<Route path="test">
+			<TestPage/>
 		</Route>
 	</Router>
 </main>

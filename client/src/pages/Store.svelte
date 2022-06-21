@@ -2,12 +2,23 @@
 import { onMount } from "svelte";
 import {getAllGames,allGamesInTheStore} from "../store/gamesStore.js"
 import Game from "../components/Game.svelte"
+import ProductCard from "../components/ProductCard.svelte";
 
 //const navigate = useNavigate()
 
 onMount( async () => {
-    const games = await getAllGames()
+    let games = await getAllGames()
+    games = games.map(game => {
+        return {
+            id: game.id,
+            title: game.name,
+            imgSrc: game.imgSrc,
+            description: game.description,
+            price: game.price,
+        }
+    })
     $allGamesInTheStore = games
+    console.log(games);
 })
 
 </script>
@@ -15,22 +26,27 @@ onMount( async () => {
 
     <h3>Store</h3>
     <h3>Her er alle vores spil.. :DDDDD</h3>
-    <div id="gamesTable">
-    {#each $allGamesInTheStore as game (game.id)}
-    <Game id={game.id}
-        name={game.name}
-        price={game.price}
-        description={game.description}    
-        />
-    {/each}
+    <div id="games-table">
+        <div id="games-table-wrapper">
+            {#each $allGamesInTheStore as game (game.id)}
+                <ProductCard productInfo={game}/>
+            {/each}
+        </div>
     </div>
 
 
 <style>
-     #gamesTable {
+    #games-table-wrapper{
+       display: flex;
+       flex-wrap: wrap;
+       width: 80vw;
+    }
+
+     #games-table {
          display: flex;
-         justify-content: space-around;
-         align-items: center;
          flex-wrap: wrap;
+         justify-content: center;
+         width: 100%;
      }
+
 </style>
