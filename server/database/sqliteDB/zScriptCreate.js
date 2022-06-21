@@ -10,4 +10,4 @@ await dummyAccount()
 
 
 //console.log(await readAllAccounts());
-//console.log(await readAllGames());
+console.log(await readAllGames());

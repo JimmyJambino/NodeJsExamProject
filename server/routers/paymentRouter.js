@@ -8,7 +8,11 @@ const paymentRouter = Router()
 
 paymentRouter.post("/paymentTest", async (req,res) => {
   const data = await post()
-  res.send(data)
+  if (req.session.isLoggedIn) {
+    res.send(data)
+  } else {
+    res.send({data: null})
+  }
 })
 
 // handle POST /create-payment-intent

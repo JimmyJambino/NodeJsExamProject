@@ -19,7 +19,7 @@
 	import ThankYouPage from "./pages/ThankYouPage.svelte"
 	import PaymentFailed from "./pages/PaymentFailed.svelte"
 	import {onMount} from "svelte"
-
+	import {fetchOneUser} from "./store/util.js"
 	import {io} from "socket.io-client"
 
 	//function to get an individual socket
@@ -52,8 +52,8 @@
 	async function handleLogInSubmit() {
 		const givenInfo = {email, password}
 		const fetchedUserData = await fetchOneUser(givenInfo)
-		
-
+		console.log("user:", fetchedUserData);
+		$currentUser = {data: "ikke null"} //TODO: FIKS LOL
 
 		navigate("/", {replace: true})
 	}

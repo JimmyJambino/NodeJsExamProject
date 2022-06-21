@@ -15,8 +15,9 @@
         stripe = await loadStripe("pk_test_51LBLn5K0jUy4lmxiHs9ApCbaM5uLpuZg6U71UvtG4FOdGzUJ4DbE9CTPN54PBtIckXxHh9K8ftc77AzhI8StHnkL00WRL5VGm1")
         // create payment intent server side
         let clientSecretObj = await createPaymentIntent()
+        //if (clientSecretObj?.data != null) {
         clientSecret = clientSecretObj.body.clientSecret
-
+      //} else 
     })
 
     async function createPaymentIntent() {
