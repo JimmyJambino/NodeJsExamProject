@@ -5,69 +5,90 @@ import { navigate } from "svelte-navigator";
 import PlayerConnection from "../components/PlayerConnection.svelte";
 export let socket
 let roomKey
-let players = [] // check with sockets in the future
-//import socket from "../App.svelte"
-
+const players = [undefined, undefined, undefined, undefined] // check with sockets in the future, add to Store?
+let numberOfPlayers = 0 // to Store
+let gameRunning = false // to Store
 socket.on("room:playerHasJoined", player => {
-    console.log(player.name)
-    players.push(player) // apply spread operator instead for cleaner look
+    for(let i = 0; i < players.length; i++) {
+        if(players[i] == undefined) {
+            players[i] = player
+            numberOfPlayers++
+            socket.emit("playerNumber", {id: player.id, number: i+1})
+            break
+        }
+    }
     players = players
+    numberOfPlayers = numberOfPlayers
+    console.log("players:", players)
 }) 
+
+socket.on("disconnectedPlayer", (data) => {
+    console.log("Disconnected player:", data)
+    for(let i = 0; i < players.length; i++) {
+        if(players[i].id === data) {
+            players[i] = undefined
+            numberOfPlayers--
+            break
+        }
+    }
+    players = players
+    numberOfPlayers = numberOfPlayers
+    console.log("players:", players)
+})
 
 onMount( () => {
     socket.emit("room:hostJoined")
     socket.on("room:displayRoomCode", (data) => {
         roomKey = data.roomKey // roomKey
         console.log("Roomkey:", roomKey)
-        //displayMessage(roomKey)
     })
 })
 
-// function handleSend() {
-//     const message = {messageInput}
-//     console.log("LOGGING MESSAGE", message.messageInput);
-//     //const room = roomInput.value
-    
-//     if (message.messageInput === "") return
-//     displayMessage(message.messageInput)
-    
-//     messageInput = ""
-// }
-    
-// function displayMessage(message) {
-//     const div = document.createElement("div")
-//     div.textContent = message
-//     messageContainer.appendChild(div)
-// }
-
-function handleJoinRoom () {
-    /*
-    
-joinRoomButton.addEventListener("click", () => {
-    const room = roomInput.value
-})
-
-    */
-}
-
+const question = {quest: "lol 123", answer: "yes"}
+let answers = []
 function startGame() {
     socket.emit("room:startGame", {roomKey}) // maybe include actual game so the players know what they're playing? Need to also change the {} in backend.
-    navigate("FibOrDib")
+    //navigate("FibOrDib") // keep RoomPage and change content for now
+    const top = document.getElementById("top") // can these consts be added to onMount?
+    const body = document.getElementById("body")
+    const bottom = document.getElementById("bottom")
+    top.innerHTML = "Game is starting..."
+    gameRunning = true
+    
+    setTimeout(() => {
+        top.innerHTML = question.quest // animate this.
+        fibDib()
+    }, 2000)
 }
+
+function fibDib() {
+    const body = document.getElementById("body")
+    setTimeout(() => {
+        body.innerHTML = answers
+    }, 50000)
+}
+
+socket.on("fibdibanswer", (data) => {
+    answers.push(data)
+})
 
 </script>
 
 
 <div class="container">
-    <div>
+    <div id="top" class="top">
         <h1>Room Key: {roomKey}</h1>
         
     </div>
+
+    <div id="body" class="body">
+
+    </div>
     
-    <div class="bottom">
-        {#if players.length >= 2}
+    <div id="bottom" class="bottom">
+        {#if numberOfPlayers >= 2 && !gameRunning}
                <button on:click|preventDefault={startGame}>Start Game</button>
-        {:else}
+        {:else if !gameRunning}
             Waiting for players...
         {/if}
         <div class="connectionList">
@@ -81,6 +102,14 @@ function startGame() {
     
 
 <style>
+    .top {
+        display: flex;
+    }
+    .bottom {
+        display: flex;
+        flex-direction: column;
+        min-width: 500px;
+    }
     .container {
         display: flex;
         flex-direction: column;

@@ -2,6 +2,9 @@
 
 //array of objects of form: userIdentifier, answer.
 const userAnswers = []
+export function combineGameRoundSockets(socket) {
+    gameRound(socket, roundTimerSeconds)
+}
 
 function answerSubmit(socket){
     socket.on("game:answerSubmit", (data) => {
