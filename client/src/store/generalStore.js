@@ -6,6 +6,9 @@ const url = "http://localhost:3000"
 export const currentUser = writable(null)
 export const playTime = writable(false)
 
+//cart for webstore
+export const cartList = writable([])
+
 //export const savedRoomKey = writable("")
 
 //import {io} from "socket.io-client"

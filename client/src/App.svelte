@@ -1,14 +1,17 @@
 <script>
 	import { Router, Link, Route, navigate, useNavigate } from "svelte-navigator"
+	import { SvelteToast } from "@zerodevx/svelte-toast"
+	import {onMount} from "svelte"
+	import {io} from "socket.io-client"
+
 	import FrontPage from "./pages/FrontPage.svelte"
 	import About from "./pages/About.svelte"
-	import Store from "./pages/Store.svelte"
+	import Store from "./pages/StorePage.svelte"
 	import Profile from "./pages/Profile.svelte"
 	import MerchStorePage from "./pages/MerchStorePage.svelte"
 	import Banner from "./components/Banner.svelte"
 	import PrivateRoute from "./pages/PrivateRoute.svelte"
 	import PlayPage from "./pages/PlayPage.svelte"
-	import {currentUser, playTime} from "./store/generalStore.js"
 	import Register from "./pages/Register.svelte"
 	import RoomPage from "./pages/RoomPage.svelte"
 	import DisplayGame from "./pages/DisplayGame.svelte"
@@ -18,10 +21,10 @@
 	import PaymentPage from "./pages/PaymentPage.svelte"
 	import ThankYouPage from "./pages/ThankYouPage.svelte"
 	import PaymentFailed from "./pages/PaymentFailed.svelte"
-	import {onMount} from "svelte"
+	import TestPage from "./pages/TestPage.svelte";
+
+	import {currentUser, playTime} from "./store/generalStore.js"
 	import {fetchOneUser} from "./store/util.js"
-	import {io} from "socket.io-client"
-import TestPage from "./pages/TestPage.svelte";
 
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
@@ -67,6 +70,7 @@ import TestPage from "./pages/TestPage.svelte";
 </script>
 
 <main>
+	<SvelteToast/>
 	<Router>
 		<!-- Navbar and Banner for the webpage-->
 		{#if $playTime == false}
