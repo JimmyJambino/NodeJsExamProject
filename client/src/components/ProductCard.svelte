@@ -1,7 +1,7 @@
 <script>
     export let productInfo
-    const {title, imgSrc, description, price, qty} = productInfo 
-
+    const {id, title, imgSrc, description, price, qty} = productInfo 
+    import {navigate} from "svelte-navigator"
 </script>
 
 <div class="card">
@@ -22,8 +22,7 @@
             {#if qty}
                 <p>in stock: {qty}</p>
             {/if}
-        
-            <button id="buy-btn">Add to cart</button>
+
         </div>
     </div>
     

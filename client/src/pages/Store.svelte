@@ -15,17 +15,14 @@ onMount( async () => {
             imgSrc: game.imgSrc,
             description: game.description,
             price: game.price,
+            rating: game.rating
         }
     })
     $allGamesInTheStore = games
-    console.log(games);
 })
 
 </script>
 
-
-    <h3>Store</h3>
-    <h3>Her er alle vores spil.. :DDDDD</h3>
     <div id="games-table">
         <div id="games-table-wrapper">
             {#each $allGamesInTheStore as game (game.id)}
@@ -36,6 +33,8 @@ onMount( async () => {
 
 
 <style>
+
+    
     #games-table-wrapper{
        display: flex;
        flex-wrap: wrap;
