@@ -1,9 +1,16 @@
 <script>
+import ProductCard from "../components/ProductCard.svelte";
+import { merch } from "../store/gamesStore";
+
+
 
 </script>
 
 <div>
-<h2>Merch</h2>
+    {#each $merch as merch (merch.id)}
+        <ProductCard productInfo={merch}/>
+    {/each}
+
 </div>
 
 <style>

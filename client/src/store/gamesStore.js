@@ -9,8 +9,16 @@ export async function getAllGames() {
     return gamesData
 }
 
+export async function getAllMerch(){
+    const response = await fetch(url+ "/api/merch")
+    const result = await response.json()
+    return result
+}
 
+//TODO: maybe readable store instead?
 export const allGamesInTheStore = writable([])
+
+export const merch = readable([])
 
 
 export const cartList = writable([])

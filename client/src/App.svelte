@@ -2,7 +2,7 @@
 	import { Router, Link, Route, navigate, useNavigate } from "svelte-navigator"
 	import FrontPage from "./pages/FrontPage.svelte"
 	import About from "./pages/About.svelte"
-	import Store from "./pages/Store.svelte"
+	import Store from "./pages/StorePage.svelte"
 	import Profile from "./pages/Profile.svelte"
 	import MerchStorePage from "./pages/MerchStorePage.svelte"
 	import Banner from "./components/Banner.svelte"
