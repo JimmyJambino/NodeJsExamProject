@@ -12,7 +12,7 @@
 	import Banner from "./components/Banner.svelte"
 	import PrivateRoute from "./pages/PrivateRoute.svelte"
 	import PlayPage from "./pages/PlayPage.svelte"
-	import Register from "./pages/Register.svelte"
+	import RegisterPage from "./pages/RegisterPage.svelte"
 	import RoomPage from "./pages/RoomPage.svelte"
 	import DisplayGame from "./pages/DisplayGame.svelte"
 	import CartOverview from "./pages/CartOverview.svelte"
@@ -144,7 +144,7 @@
 			<Profile/>
 		</PrivateRoute>
 		<Route path="register">
-			<Register/>
+			<RegisterPage/>
 		</Route>
 		<Route path="play">
 			<PlayPage socket={socket}/>

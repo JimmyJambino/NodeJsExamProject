@@ -1,5 +1,5 @@
 <script>
-    import { cartList } from "../store/gamesStore";
+    import { cartList } from "../store/generalStore.js";
     import {navigate} from "svelte-navigator"
     import ItemTable from "../components/Table/ItemTable.svelte"
     import {currentUser} from "../store/generalStore.js"

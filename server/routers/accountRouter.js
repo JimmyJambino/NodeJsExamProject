@@ -9,11 +9,14 @@ const ROUNDS = 12
 const router = Router()
 
 // Sign up
-router.post("/signup", async (req, res) => {
+router.post("/register", async (req, res) => {
     try{
         const providedDetails = req.body
+
+        if(!providedDetails.firstName || !providedDetails.lastName || !providedDetails.email || !providedDetails.password){
+            throw new Error("Missing details", {cause: "missingDetails"})
+        }
     
-        //TODO: validate provided email and password
         const userExists = await db.get("SELECT * FROM accounts WHERE email= $email", {
             $email: providedDetails.email
         })
@@ -30,7 +33,7 @@ router.post("/signup", async (req, res) => {
         }
     
 
-        //TODO: this should work but the regex is hard to explain, remeber to comment/uncomment the related part in catch
+        //TODO: this should work but the regex is hard to explain, remember to comment/uncomment the related part in catch
         // const passwordValidationRegex =
         // new RegExp(/^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{8,16}$/)
     
@@ -41,22 +44,25 @@ router.post("/signup", async (req, res) => {
     
         createAccount(providedDetails)
         
-        res.send({})
+        res.send({isRegisterSuccessful: true})
 
     } catch(err){
         switch (err.cause) {
             case "mailAlreadyExists":
-                res.status(400).send({errMsg: "Email is already in use"})
+                res.status(400).send({errMsg: "Email is already in use", cause: "mailAlreadyExists"})
                 break;
             case "invalidEmail":
-                res.status(400).send({errMsg: "Email is invalid"})
+                res.status(400).send({errMsg: "Email is invalid", cause: "invalidEmail"})
                 break;
             // case "invalidPassword":
-            //     res.status(400).send({errMsg: "password is invalid"})
+            //     res.status(400).send({errMsg: "password is invalid", cause: "invalidPassword"})
             //     break;
+            case "missingDetails":
+                res.status(400).send({errMsg: "Missing details", cause: "missingDetails"})
+                break;
             default:
                 console.error("Unknown error in signup")
-                res.status(500).send({errMsg: "internal server error"})
+                res.status(500).send({errMsg: "internal server error", cause: "internalServerError"})
                 break;
         }
     }
