@@ -1,8 +1,10 @@
 <script>
     import { onMount } from "svelte";
-    import { getAllGames, allGamesInTheStore } from "../store/gamesStore.js";
-    import { cartList } from "../store/generalStore.js"
     import { useNavigate } from "svelte-navigator";
+    import { toast } from "@zerodevx/svelte-toast";
+
+    import { getAllGames, allGamesInTheStore } from "../store/gamesStore.js";
+    import { cartList } from "../store/generalStore.js";
     import ProductCard from "../components/ProductCard.svelte";
 
     const navigate = useNavigate();
@@ -22,16 +24,19 @@
     });
 
     function handleInspect(id) {
-        console.log("uwu store")
-        navigate("/store/" + id, true)
+        navigate("/store/" + id, true);
     }
 
-    function addToCart(item){
-        $cartList = [...$cartList, item]
-        console.log("uwu cart")
-        console.log($cartList)
-    }
+    function addToCart(item) {
+        $cartList = [...$cartList, item];
 
+        toast.push(`Added ${item.title} to cart`, {
+            theme: {
+                "--toastBackground": "#48BB78",
+                "--toastBarBackground": "#2F855A",
+            },
+        });
+    }
 </script>
 
 <h3>Store</h3>
@@ -40,11 +45,10 @@
     <div id="games-table-wrapper">
         {#each $allGamesInTheStore as game (game.id)}
             <ProductCard
-             productInfo={game}
-             on:click={() => handleInspect(game.id)}
-             on:addToCart={() => addToCart(game)}
-             
-             />
+                productInfo={game}
+                on:click={() => handleInspect(game.id)}
+                on:addToCart={() => addToCart(game)}
+            />
         {/each}
     </div>
 </div>

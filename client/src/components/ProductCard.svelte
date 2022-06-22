@@ -31,7 +31,7 @@
                 <p>in stock: {qty}</p>
             {/if}
 
-            <button id="buy-btn" on:click={addToCart}>Add to cart</button
+            <button id="buy-btn" on:click|stopPropagation={addToCart}>Add to cart</button
             >
         </div>
     </div>
