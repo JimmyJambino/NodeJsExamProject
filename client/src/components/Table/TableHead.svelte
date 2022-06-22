@@ -11,24 +11,32 @@
 			header: target
 		});
 	}
+
+    function capitalizeFirstLetter(string) {
+        let str1 = string.slice(0,1).toUpperCase()
+        let strRest = string.slice(1,string.length)
+        const together = str1+strRest
+        return together
+    }
+
 </script>
 
 
 {#each header as head}
-    <th on:click={sortTableByHeader} id={head}>{head}</th>
+    <th on:click={sortTableByHeader} id={head}>{capitalizeFirstLetter(head.toString())}</th>
 {/each}
     <th>Options</th>
 
 <style>
     th {
-        background-color:cornflowerblue;
+        background-color:rgba(232, 32, 2, 0.2);
         cursor: pointer;
         border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-        display: inline-block;
-        height: 50px;
-        width: 100px;
+        text-align: center;
+        display: table-cell;
+        height: 2rem;
+        width: 10rem;
+        color: white;
     }
     
 </style>

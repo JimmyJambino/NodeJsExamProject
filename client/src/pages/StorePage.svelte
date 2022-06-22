@@ -28,7 +28,9 @@
     }
 
     function addToCart(item) {
-        $cartList = [...$cartList, item];
+        const alteredItem = {product: item.imgSrc, title: item.title,  price: item.price}
+        const cart = $cartList 
+        $cartList = [...cart, alteredItem];
 
         toast.push(`Added ${item.title} to cart`, {
             theme: {
@@ -39,8 +41,7 @@
     }
 </script>
 
-<h3>Store</h3>
-<h3>Her er alle vores spil.. :DDDDD</h3>
+
 <div id="games-table">
     <div id="games-table-wrapper">
         {#each $allGamesInTheStore as game (game.id)}

@@ -40,6 +40,9 @@
 </div>
 
 <style>
+    p {
+        color:rgba(0, 0, 0, 1)
+    }
     .card {
         display: flex;
         flex-direction: column;
@@ -52,11 +55,13 @@
         transition: box-shadow 0.3s ease-in-out;
         padding: 0em 1em;
         margin: 1em;
-        background-color: lightgrey;
+        background-color: rgba(255, 255, 255, 0.25) ;
+        cursor: pointer;
     }
 
     .card:hover {
-        box-shadow: 2px 3px 8px;
+        box-shadow: 5px 10px 15px rgb(13, 103, 239);
+
     }
 
     img {
