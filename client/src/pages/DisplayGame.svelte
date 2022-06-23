@@ -1,8 +1,16 @@
 <script>
-    import { allGamesInTheStore,cartList } from "../store/gamesStore";
+    import { allGamesInTheStore,cartList } from "../store/gamesStore"
     import { useNavigate } from "svelte-navigator"
+    import YouTube from 'svelte-youtube' //https://www.npmjs.com/package/svelte-youtube
 
-    export let id = 3;
+    export let id;
+    let img1 = "https://cdn.akamai.steamstatic.com/steam/apps/434170/ss_f236ee261683e4cd4c13dbd29b710af78a86392d.1920x1080.jpg?t=1597699274"
+    let img2 = "https://jackboxgames.b-cdn.net/wp-content/uploads/2020/05/Screen-Shot-2020-05-18-at-2.12.41-PM.png"
+    let img3 = "https://i.insider.com/57c9c418b996eb03258b5d5a?width=1200&format=jpeg"
+    let img4 = "https://play-lh.googleusercontent.com/5PjYFPc8Eiz2l97BpwRPMJGXsYGBEFEBgEsIUL9clq4SCIp4v2-_HVfiX5cYsreFIg"
+    let img5 = "https://www.gamingonlinux.com/cache/youtube_thumbs/5f7510c44e929da9ca24ccf9ea595c9c.jpg"
+    let img6 = "https://ih1.redbubble.net/image.2645073770.4034/flat,750x1000,075,f.jpg"
+   
 
     const navigate = useNavigate()
 
@@ -15,66 +23,203 @@
         }
     }
     
-    const selectedGame = findGame(id)
-    //items har disse keys: id, name, price, description
-
+    const game = findGame(id)
     let customerCart = $cartList
 
     function handleAddToCart() {
-        customerCart.push(selectedGame)
+        customerCart.push(game)
         $cartList = customerCart
-        console.log(customerCart);
-        console.log($cartList);
     }
-</script>
 
-<div style="height: 70vh; display:block; background-color: red">
+    function displayRatings() {
+        let ratings = ""
+        for (let i = 0; i <= game.rating; i++) {
+            ratings += "⭐"
+        }
+        return ratings
+    }
     
-    <div id="itemBox">
-        <p>Lol</p>
-        <div id="innerBox">
-        <p>Item name:
-            {selectedGame.name}</p>
-        <p>Price:
-            {selectedGame.price}</p>
+    const options = {
+        height: '390',
+        width: '640',
+        //  see https://developers.google.com/youtube/player_parameters
+        playerVars: {
+            autoplay: 1
+        }
+    };
+    
+    /*GAME INFO
+                id: game.id,
+                title: game.name,
+                imgSrc: game.imgSrc,
+                description: game.description,
+                price: game.price,
+    */
+</script>
+<div id="wrapper">
+    <div id="outer">
+    
+    <div id="leftVideoBox">
+        <p class="titleFont">{game.title}</p>
+        <YouTube videoId="ZTCzUrPYYDo" {options}  />
+        <!-- <YouTube
+            videoId={string}                uaPom64cKz8 <- mads ka ik kode videoen
+            id={string}                     
+            class={string}                  
+            options={obj}                   
+        /> -->
+    </div>
 
-            <button on:click|preventDefault={handleAddToCart}>Add to cart</button>
-            <button on:click="{() => navigate("/cartList")}">Go to cart</button>
-            <button on:click="{() => navigate(-1)}">Back to games page</button>
+    <div id="rightDescriptionBox">
+        <img src={game.imgSrc} alt="">
+        <h3 class="rightText">{game.description}</h3>
+        <h3 class="rightText">Overall ratings: {displayRatings()}</h3>
+            <div id="scroll">
+                <img class="smallImg" src={img1}>
+                <img class="smallImg" src={img2}>
+                <img class="smallImg" src={img3}>
+                <img class="smallImg" src={img4}>
+                <img class="smallImg" src={img5}>
+                <img class="smallImg" src={img6}>
+
+            </div>
+        <div id="buttonBox">
+            <button class="button-33" on:click|preventDefault={handleAddToCart}>Add to cart</button>
+            <button class="button-33" on:click="{() => navigate("/cartList")}">Go to cart</button>
         </div>
     </div>
+    </div>
 </div>
-
+<!-- <button class="button-13" role="button" on:click="{() => navigate(-1)}">Back to games page</button> -->
 <style>
-    #itemBox{ 
-        background-color: blanchedalmond;
-        width: 70%;
-        height: 100%;
-        display: flex;
-        float: left;
-        align-items: flex-end;
+    .rightText {
+        color: rgba(254, 255, 198);
     }
-    #innerBox{
+    #wrapper {
         display: flex;
-        float: left;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: space-evenly;
-        width: 50%;
-        height: 30%;
-        background-color: aquamarine;
-    }
-    p {
-        display: flex;
-        width: 30%;
-        height: 40%;
-        padding: 2px;
-        border-color: black;
-        border-style: solid;
-        text-align: center;
         justify-content: center;
-        align-items: center;
+        flex-direction: row;
+	    min-height: calc(100vh - 15vh - 1rem);
+        background: rgb(0,38,54);
+        background: linear-gradient(90deg, rgba(0,38,54,1) 0%, rgba(3,61,85,1) 30%, rgba(0,38,54,1) 70%);
     }
+    #outer {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        width: 100vw;
+        height: 86%;
+        margin:0;
+        padding-bottom: 1em;
+        
+    }
+    .smallImg{
+        width: 30%;
+        height: 6em;
+        object-fit: cover;
+    }
+    img {
+        width: 100%;
+        height: 13em;
+        object-fit: cover;
+    }
+    #scroll {
+
+        height: 7em;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        padding: 0;
+        white-space: nowrap;
+    }
+    #rightDescriptionBox{ 
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        
+        padding: 1em
+        
+    }
+    #leftVideoBox{
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        padding: 2rem 0;
+        height:100%;
+    }
+    #buttonBox {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        padding: 2rem 0 ;
+    }
+
+    .titleFont {
+        font-family: Verdana, Tahoma, sans-serif;
+        font-size: xx-large;
+        font-weight: bolder;
+        color: rgb(254, 255, 198);
+    }
+
+    .button-33 {
+    background-color: #c2fbd7;
+    border-radius: 100px;
+    width: 10rem;
+    height: 4rem;
+    box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+    color: green;
+    cursor: pointer;
+    display: inline-block;
+    font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 16px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    }
+
+    .button-33:hover {
+    box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
+    }
+
+/* CSS */
+.button-13 {
+  background-color: #fff;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  box-sizing: border-box;
+  color: #0f1111;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Amazon Ember",sans-serif;
+  font-size: 13px;
+  line-height: 29px;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  width: 100px;
+}
+
+.button-13:hover {
+  background-color: #f7fafa;
+}
+
+.button-13:focus {
+  border-color: #008296;
+  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+  outline: 0;
+}
+
     #rightBox {
         background-color: darkkhaki;
         width: 30%;

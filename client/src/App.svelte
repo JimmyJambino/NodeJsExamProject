@@ -74,7 +74,7 @@
 	<Router>
 		<!-- Navbar and Banner for the webpage-->
 		{#if $playTime == false}
-		<Banner/>
+		<!-- <Banner/> -->
 		<div id="headerDiv">
 		<div id="navDiv">
 		<nav>
@@ -188,24 +188,28 @@
 		float: left;
 		z-index: -1;
 	}
-main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-		min-height: calc(100vh - 4em); 
-	} 
+
+	body{ margin: 0 }
+
+	main {
+
+	background: rgb(0,38,54);
+	background: linear-gradient(90deg, rgba(0,38,54,1) 0%, rgba(3,61,85,1) 50%, rgba(0,38,54,1) 100%);
+	text-align: center;
+	max-width: 240px;
+	width: 100%;
+	min-height: calc(100vh - 2rem);
+} 
 #headerDiv {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-
-    background-color: rgba(112,146,190,255);
+    background-color: #002636;
+	height: 15vh;
 }
 #navDiv {
 	display: flex;
 	justify-content: center;
-   
     flex-direction: row;
 	width: 75%;
 	}
@@ -219,11 +223,15 @@ ul {
 	}
 li{
 	font-size: xx-large;
-		margin: 30px
+		margin: 1em 2rem;
 	}
 #loginDiv {
 		float: right;
 		width: 20%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 1em;
 
 	}
 footer {

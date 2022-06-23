@@ -30,9 +30,11 @@
 
 <style>
     table {
+        padding: 0;
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
+        margin-bottom: 2rem;
     }
     tr {
         border: 2px;
