@@ -18,6 +18,7 @@
  
     let initialValue = 0;
     
+    //reducer function for total price of the cart
     $: totalSum = $cartList.reduce(function (total, item) {
         return total + item.price;
     }, initialValue);
