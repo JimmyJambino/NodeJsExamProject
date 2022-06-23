@@ -14,7 +14,6 @@
 	import LoginForm from "./components/LoginForm.svelte";
 
 	import FrontPage from "./pages/FrontPage.svelte";
-	import About from "./pages/About.svelte";
 	import Store from "./pages/StorePage.svelte";
 	import Profile from "./pages/Profile.svelte";
 	import MerchStorePage from "./pages/MerchStorePage.svelte";
@@ -30,8 +29,10 @@
 	import ThankYouPage from "./pages/ThankYouPage.svelte";
 	import PaymentFailed from "./pages/PaymentFailed.svelte";
 	import TestPage from "./pages/TestPage.svelte";
+	import DisplayMerchPage from "./pages/DisplayMerchPage.svelte"
 
 	import { isLoggedIn, playTime } from "./store/generalStore.js";
+	import { cartList } from "./store/generalStore.js"
 
 	//function to get an individual socket
 	const socket = io("http://localhost:3000");
@@ -62,7 +63,6 @@
 					<nav>
 						<ul>
 							<li><Link to="/">Home</Link></li>
-							<li><Link to="about">About</Link></li>
 							<li><Link to="store">Store</Link></li>
 							<li><Link to="merch">Merch</Link></li>
 							{#if $isLoggedIn != null}
@@ -71,7 +71,7 @@
 							{#if $isLoggedIn == null}
 								<li><Link to="register">Register</Link></li>
 							{/if}
-							<li><Link to="cartList">Cart</Link></li>
+							<li><Link to="cartList">Cart{cartSize($cartList)}</Link></li>
 							<li><Link to="test">test</Link></li>
 						</ul>
 					</nav>
