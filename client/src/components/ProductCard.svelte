@@ -3,6 +3,7 @@
     import {navigate} from "svelte-navigator"
     import { createEventDispatcher } from "svelte";
     import { fly } from "svelte/transition"
+    import { cartList } from "../store/generalStore.js"
 
 
     export let productInfo;
@@ -10,9 +11,23 @@
 
     const dispatch = createEventDispatcher();
 
+    $: check = checkIfInCart($cartList)
+    
+    function checkIfInCart(items) {
+        let boolean = false;
+        items.forEach(element => {
+            if (element.title == title){
+                boolean = true
+            }
+        });
+        return boolean
+    }
+
+
     function addToCart() {
         dispatch("addToCart");
     }
+
 </script>
 
 <div class="card" on:click in:fly="{{y: 200, duration: 500}}">
@@ -32,9 +47,9 @@
             {#if qty}
                 <p>in stock: {qty}</p>
             {/if}
-
-            <button id="buy-btn" on:click|stopPropagation={addToCart}>Add to cart</button
-            >
+            {#if !check}
+            <button id="buy-btn" on:click|stopPropagation={addToCart}>Add to cart</button>
+            {/if}
         </div>
     </div>
 </div>
