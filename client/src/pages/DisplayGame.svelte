@@ -27,12 +27,12 @@
     
     const game = findGame(id)
 
-    function handleAddToCart(game) {
-        const alteredItem = {product: game.imgSrc, title: game.title,  price: game.price}
+    function handleAddToCart(item) {
+        const alteredItem = {id: item.id, product: item.imgSrc, title: item.title,  price: item.price}
         const cart = $cartList 
         $cartList = [...cart, alteredItem];
 
-        toast.push(`Added ${game.title} to cart`, {
+        toast.push(`Added ${item.title} to cart`, {
             theme: {
                 "--toastBackground": "#48BB78",
                 "--toastBarBackground": "#2F855A",

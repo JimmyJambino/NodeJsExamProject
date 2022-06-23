@@ -5,7 +5,6 @@
 	import {io} from "socket.io-client"
 
 	import FrontPage from "./pages/FrontPage.svelte"
-	import About from "./pages/About.svelte"
 	import Store from "./pages/StorePage.svelte"
 	import Profile from "./pages/Profile.svelte"
 	import MerchStorePage from "./pages/MerchStorePage.svelte"
@@ -26,7 +25,7 @@
 
 	import {currentUser, playTime} from "./store/generalStore.js"
 	import {fetchOneUser} from "./store/util.js"
-
+	import {cartList} from "./store/generalStore.js"
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
 /*
@@ -68,6 +67,14 @@
 		navigate("/", {replace:true})
 	}
 
+$: cart = $cartList.length
+function cartSize(cart)  {
+	if (cart >0) {
+		return "("+cart+")"
+	} else {
+		return ""
+	}
+}
 </script>
 
 <main>
@@ -81,7 +88,6 @@
 		<nav>
 			<ul>
 				<li><Link to="/">Home</Link></li>
-				<li><Link to="about">About</Link></li>
 				<li><Link to="store">Store</Link></li>
 				<li><Link to="merch">Merch</Link></li>
 				{#if $currentUser != null}
@@ -90,7 +96,7 @@
 				{#if $currentUser == null}
 				<li><Link to="register">Register</Link></li>
 				{/if}
-				<li><Link to="cartList">Cart</Link></li>
+				<li><Link to="cartList">Cart{cartSize(cart)}</Link></li>
 				<li><Link to="test">test</Link></li>
 				
 			</ul>
@@ -128,9 +134,6 @@
 		
 		<Route path="/" primary={false}>
 			<FrontPage/>
-		</Route>
-		<Route path="about">
-			<About/>
 		</Route>
 
 		<Route path="store/*"  primary={false}>

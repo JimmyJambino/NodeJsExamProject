@@ -3,7 +3,7 @@
     import { navigate } from "svelte-navigator"
     import {allMerch} from "../store/merchStore.js"
     //import { toast } from "@zerodevx/svelte-toast";
-
+    
     
     
     export let id
@@ -21,7 +21,17 @@ function findMerch(id) {
     const merch = findMerch(id)
 
     function handleAddToCart() {
+        console.log("FIRE",merch);
+        const alteredMerch = {id: merch.id, product: merch.imgSrc, title: merch.title,  price: merch.price}
+        const cart = $cartList 
+        $cartList = [...cart, alteredMerch];
 
+        toast.push(`Added ${merch.title} to cart`, {
+            theme: {
+                "--toastBackground": "#48BB78",
+                "--toastBarBackground": "#2F855A",
+            },
+        });
     }
 
 </script>
