@@ -2,12 +2,11 @@
 
 import crypto from "crypto";
 import { Socket } from "socket.io";
-let rooms = new Map()
+export let rooms = new Map()
 export function combineFunctions(socket) {
     playerJoin(socket)
     hostJoin(socket)
     createRoom(socket)
-    startGame(socket)
     spec(socket)
     disconnect(socket)
 }
@@ -20,7 +19,7 @@ export function playerJoin(socket) {
         }
         socket.join(data.roomKey) 
         socket.to(data.roomKey).emit("room:playerHasJoined", player)
-        rooms.get(data.roomKey).push(socket.id)
+        rooms.get(data.roomKey).push(socket.id) // need error handling in case player doesn't specify room when trying to join (handle it in frontend?)
     })
 }
 
@@ -48,15 +47,6 @@ export function createRoom(socket, playerNumberCap){
     })
     //make host join the room
     //send the roomcode back to the host so it can be displayed
-    
-}
-
-export function startGame(socket) {
-    socket.on("room:startGame", (data) => {
-        //socket.join(data.roomKey)
-        socket.to(data.roomKey).emit("room:gameStarted", {})
-        console.log("Host started game on:", data.roomKey)
-    })
 }
 
 function joinRoom(socket){ // Can we remove this?
@@ -72,21 +62,13 @@ export function spec(socket) {// rename this function
 }
 
 // #################  DISCONNECT ######################
-function getRoomBySocketId(socketId) { // Finds a key (room) by the socket id
-    for (let [key, value] of rooms.entries()) {
-        if(value.indexOf(socketId) !== -1) { // checks each key value array for the searchValue and returns key if found
-            return key
-        }
-    }
-  }
+import { getRoomBySocketId } from './socketUtils.js'
 
-// if more than one disconnect happens too fast / simultaneously, then it might not disconnect properly in the backend. How to solve?
-// We could run a check 5-10min after no action has been taken to see if a room is empty or a player is still wrongly displayed?
 export function disconnect(socket) { 
     socket.on("disconnecting", (reason) => { // reason is the error message.
         for(const room of socket.rooms) {
             if(room !== socket.id) {
-                const roomKey = getRoomBySocketId(socket.id)
+                const roomKey = getRoomBySocketId(rooms, socket.id)
                 console.log("Room key for disconnection:", roomKey)
                 socket.to(roomKey).emit("disconnectedPlayer", socket.id)
             }

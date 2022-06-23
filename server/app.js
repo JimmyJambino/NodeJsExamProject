@@ -52,16 +52,12 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 io.use(wrap(sessionMiddleware))
 
 import connection from './sockets/connection.js'
-import {playerJoin, createRoom, startGame, spec, disconnect, combineFunctions} from "./sockets/joinRoom.js"
+import {combineFunctions} from "./sockets/joinRoom.js"
+import {combineFibOrDib} from './sockets/fibOrDibSockets.js'
 io.on("connection", (socket) => {
-    // connection(socket) // shows the connecting socket id
-    // playerJoin(socket)
-    // createRoom(socket)
-    // startGame(socket)
     
-    // spec(socket)
-    // disconnect(socket)
     combineFunctions(socket)
+    combineFibOrDib(socket)
     
 })
 

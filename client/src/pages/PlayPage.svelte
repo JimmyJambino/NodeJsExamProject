@@ -7,7 +7,7 @@ socket.on("room:hello", (data) => {
     console.log(data)
 })
     function handleJoinSubmit() {
-        const givenInfo = {roomKey, playerName}
+        const givenInfo = {roomKey, playerName, score: 0}
         socket.emit("room:playerJoined", (givenInfo))
         navigate("player", {})
     }
