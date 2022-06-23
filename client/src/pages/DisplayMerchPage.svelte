@@ -1,100 +1,45 @@
 <script>
-    import { allGamesInTheStore } from "../store/gamesStore.js"
     import {cartList} from "../store/generalStore.js"
-    import { useNavigate } from "svelte-navigator"
-    import YouTube from 'svelte-youtube' //https://www.npmjs.com/package/svelte-youtube
-    import { toast } from "@zerodevx/svelte-toast";
+    import { navigate } from "svelte-navigator"
+    import {allMerch} from "../store/merchStore.js"
+    //import { toast } from "@zerodevx/svelte-toast";
 
+    
+    
     export let id
-    //pictures for showcasing...
-    let img1 = "https://cdn.akamai.steamstatic.com/steam/apps/434170/ss_f236ee261683e4cd4c13dbd29b710af78a86392d.1920x1080.jpg?t=1597699274"
-    let img2 = "https://jackboxgames.b-cdn.net/wp-content/uploads/2020/05/Screen-Shot-2020-05-18-at-2.12.41-PM.png"
-    let img3 = "https://i.insider.com/57c9c418b996eb03258b5d5a?width=1200&format=jpeg"
-    let img4 = "https://play-lh.googleusercontent.com/5PjYFPc8Eiz2l97BpwRPMJGXsYGBEFEBgEsIUL9clq4SCIp4v2-_HVfiX5cYsreFIg"
-    let img5 = "https://www.gamingonlinux.com/cache/youtube_thumbs/5f7510c44e929da9ca24ccf9ea595c9c.jpg"
-    let img6 = "https://ih1.redbubble.net/image.2645073770.4034/flat,750x1000,075,f.jpg"
-   
-    const navigate = useNavigate()
 
-    //finds a game by ID in the svelte store
-    function findGame(id) {
-        const gameArray = $allGamesInTheStore;
-        const selectedGameIndex = gameArray.findIndex(item => item.id === Number(id))
-        if(selectedGameIndex !== -1){
-            return gameArray[selectedGameIndex]
-        }
+//finds a game by ID in the svelte store
+function findMerch(id) {
+    const merchArray = $allMerch;
+    const merchIndex = merchArray.findIndex(item => item.id === Number(id))
+    
+    if(merchIndex !== -1){
+        return merchArray[merchIndex]
     }
-    
-    const game = findGame(id)
+}
 
-    function handleAddToCart(game) {
-        const alteredItem = {product: game.imgSrc, title: game.title,  price: game.price}
-        const cart = $cartList 
-        $cartList = [...cart, alteredItem];
+    const merch = findMerch(id)
 
-        toast.push(`Added ${game.title} to cart`, {
-            theme: {
-                "--toastBackground": "#48BB78",
-                "--toastBarBackground": "#2F855A",
-            },
-        });
-    }
+    function handleAddToCart() {
 
-    function displayRatings() {
-        let ratings = ""
-        for (let i = 0; i <= game.rating; i++) {
-            ratings += "⭐"
-        }
-        return ratings
-    }
-    
-    const options = {
-        height: '390',
-        width: '640',
-        //  see https://developers.google.com/youtube/player_parameters
-        playerVars: {
-            autoplay: 1
-        }
-    };
-    
-    $: check = checkIfInCart($cartList)
-    
-    function checkIfInCart(items) {
-        let boolean = false;
-        items.forEach(element => {
-            if (element.title == game.title){
-                boolean = true
-            }
-        });
-        return boolean
     }
 
 </script>
+
 <div id="wrapper">
     <div id="outer">
     
     <div id="leftVideoBox">
-        <p class="titleFont">{game.title}</p>
-        <YouTube videoId="ZTCzUrPYYDo" {options}  />
+        <p class="titleFont">{merch.title}</p>
     </div>
 
     <div id="rightDescriptionBox">
-        <img src={game.imgSrc} alt="">
-        <h3 class="rightText">{game.description}</h3>
-        <h3 class="rightText">Overall ratings: {displayRatings()}</h3>
-            <div id="scroll">
-                <img class="smallImg" src={img1} alt="avatar">
-                <img class="smallImg" src={img2} alt="avatar">
-                <img class="smallImg" src={img3} alt="avatar">
-                <img class="smallImg" src={img4} alt="avatar">
-                <img class="smallImg" src={img5} alt="avatar">
-                <img class="smallImg" src={img6} alt="avatar">
-
-            </div>
+        <img src={merch.imgSrc} alt="">
+        <h3 class="rightText">{merch.description}</h3>
+        <h3 class="rightText">Overall ratings: LOL</h3>
+            
         <div id="buttonBox">
-            {#if !check}
-            <button class="button-33" on:click|stopPropagation={() => {handleAddToCart(game)}}>Add to cart</button>
-            {/if}
+            <button class="button-33" on:click|stopPropagation={() => {handleAddToCart(merch)}}>Add to cart</button>
             <button class="button-33" on:click="{() => navigate("/cartList")}">Go to cart</button>
         </div>
     </div>

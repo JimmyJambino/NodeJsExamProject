@@ -7,6 +7,7 @@ import gameRouter from "./routers/gameRouter.js"
 import customerGamesRouter from "./routers/accountsGamesRouter.js"
 import questionRouter from "./routers/questionRouter.js"
 import paymentRouter from "./routers/paymentRouter.js"
+import merchRouter from "./routers/merchRouter.js"
 
 const app = express()
 app.use(express.json())
@@ -32,6 +33,7 @@ app.use("/api", gameRouter)
 app.use("/api", customerGamesRouter)
 app.use("/api", paymentRouter)
 app.use("/api", questionRouter)
+app.use("/api", merchRouter)
 
 const server = http.createServer(app)
 

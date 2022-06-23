@@ -22,6 +22,7 @@
 	import ThankYouPage from "./pages/ThankYouPage.svelte"
 	import PaymentFailed from "./pages/PaymentFailed.svelte"
 	import TestPage from "./pages/TestPage.svelte";
+	import DisplayMerchPage from "./pages/DisplayMerchPage.svelte"
 
 	import {currentUser, playTime} from "./store/generalStore.js"
 	import {fetchOneUser} from "./store/util.js"
@@ -131,6 +132,7 @@
 		<Route path="about">
 			<About/>
 		</Route>
+
 		<Route path="store/*"  primary={false}>
 			<Route path="/">
 				<Store/>
@@ -139,9 +141,16 @@
 				<DisplayGame id={params.id}/>
 			</Route>
 		</Route>
-		<Route>
-			<MerchStorePage/>
+
+		<Route path="merch/*" >
+			<Route path="/"> 
+				<MerchStorePage/>
+			</Route>
+			<Route path=":id" let:params>
+				<DisplayMerchPage id={params.id} />
+			</Route>
 		</Route>
+		
 		<PrivateRoute path="profile">
 			<Profile/>
 		</PrivateRoute>
@@ -263,6 +272,7 @@ li{
   touch-action: manipulation;
   vertical-align: baseline;
   white-space: nowrap;
+  height: 2rem;
 }
 
 .button-8:hover,

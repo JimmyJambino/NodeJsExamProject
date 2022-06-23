@@ -7,17 +7,20 @@
         $cartList = items
     }
 
+console.log(items);
 </script>
 
 {#each items as item}
     <tr>
     {#each Object.keys(item) as key}  <!-- Object.keys(item) returns an array of all the keys in the object-->
+    {#if key != "id"}
         {#if key.toString() == "product"} <!-- picture key-->
             <td> <img src='{item[key]}' alt='Avatar of item' /> </td>
         {:else}
         <td>{item[key]} </td> <!-- "key" would just give "name" or "email".. We need to specify it's from the item-->
         {/if}
-        {/each}
+    {/if}
+    {/each}
         <td><button on:click|preventDefault={handleDelete(item.title)}>Delete item</button></td>
     </tr>
 {/each}

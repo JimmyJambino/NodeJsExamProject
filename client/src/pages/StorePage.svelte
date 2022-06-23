@@ -18,17 +18,18 @@
                 imgSrc: game.imgSrc,
                 description: game.description,
                 price: game.price,
-            };
-        });
-        $allGamesInTheStore = games;
-    });
+                rating: game.rating
+            }
+        })
+        $allGamesInTheStore = games
+    })
 
     function handleInspect(id) {
         navigate("/store/" + id, true);
     }
 
     function addToCart(item) {
-        const alteredItem = {product: item.imgSrc, title: item.title,  price: item.price}
+        const alteredItem = {id: item.id, product: item.imgSrc, title: item.title,  price: item.price}
         const cart = $cartList 
         $cartList = [...cart, alteredItem];
 

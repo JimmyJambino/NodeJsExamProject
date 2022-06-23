@@ -18,8 +18,3 @@ export async function getAllMerch(){
 
 //TODO: maybe readable store instead?
 export const allGamesInTheStore = writable([])
-
-export const merch = readable([])
-
-
-export const cartList = writable([])

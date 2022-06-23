@@ -15,8 +15,9 @@
     
     function checkIfInCart(items) {
         let boolean = false;
+        
         items.forEach(element => {
-            if (element.title == title){
+            if (element.title == productInfo.title && productInfo.type == undefined ){
                 boolean = true
             }
         });
@@ -48,7 +49,7 @@
                 <p>in stock: {qty}</p>
             {/if}
             {#if !check}
-            <button id="buy-btn" on:click|stopPropagation={addToCart}>Add to cart</button>
+            <button id="buy-btn" on:click|stopPropagation={() => { addToCart(productInfo)}}>Add to cart</button>
             {/if}
         </div>
     </div>
