@@ -1,10 +1,10 @@
 
 export async function fetchOneUser(body) {
     const options = makeOptions("POST",body)
-    const response = await fetch("/api/login",options); //$baseURL+
-    if (response.status == 200) {
-        const accountData = await response.json();
-        return accountData
+    const response = await fetch("/api/login",options)
+    return await response.json()
+    if (response.ok) {
+        return await response.json()
     } else if(response.status == 429) { //too many requests
         return 429;
     } 

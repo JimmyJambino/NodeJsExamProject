@@ -1,9 +1,9 @@
 <script>
     import { cartList } from "../store/generalStore.js";
-    import {navigate} from "svelte-navigator"
+    import { navigate } from "svelte-navigator"
     import ItemTable from "../components/Table/ItemTable.svelte"
-    import {currentUser} from "../store/generalStore.js"
-
+    import { isLoggedIn } from "../store/generalStore.js"
+    import { onMount } from "svelte"
 
     let headers = $cartList
     if (headers != null && headers != undefined && headers.length >0) {
@@ -56,10 +56,10 @@
     <div id="amountBox">
         <h3 class="price">Total amount: {totalSum}</h3>
     </div>
-    {#if $currentUser != null}
+    {#if $isLoggedIn != null}
     <button class="button-3" on:click|preventDefault={handleBuySubmit}>Buy now</button>
     {/if}
-    {#if $currentUser == null}
+    {#if $isLoggedIn == null}
     <button class="button-3" disabled='true' on:click|preventDefault={handleBuySubmit}>Log in to buy</button>
     {/if}
 

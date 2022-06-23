@@ -1,7 +1,8 @@
 <script>
-    import {onMount} from "svelte"
+    import { onMount } from "svelte"
     import PlayerOption from "../components/Game/PlayerOption.svelte";
     import {awaitingOptionInput, awaitingTextInput} from '../store/gameControllerStore.js'
+    import { isLoggedIn, playTime } from "../store/generalStore.js"
     export let socket
     $:playerOptions = [] // {player, option}
     let playerNumber

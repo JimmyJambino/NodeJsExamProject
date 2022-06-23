@@ -2,7 +2,7 @@ import { readable, writable } from "svelte/store";
 
 export const baseURL = readable("http://localhost:3000")
 
-export const currentUser = writable(null)
+export const isLoggedIn = writable(null)
 export const playTime = writable(false)
 export const rooms = writable(new Map())
 
