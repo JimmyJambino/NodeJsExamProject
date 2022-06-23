@@ -1,12 +1,12 @@
 <script>
 import { useNavigate } from "svelte-navigator";
 
-    import { currentUser } from "../store/generalStore";
+    import { isLoggedIn } from "../store/generalStore";
     
     const navigate = useNavigate()
 
     function handleLogOut() {
-        $currentUser = null
+        $isLoggedIn = null
         navigate("/", {replace: true})
     }
 </script>

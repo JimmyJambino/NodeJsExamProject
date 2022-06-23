@@ -1,186 +1,144 @@
 <script>
-	import { Router, Link, Route, navigate, useNavigate } from "svelte-navigator"
-	import { SvelteToast } from "@zerodevx/svelte-toast"
-	import {onMount} from "svelte"
-	import {io} from "socket.io-client"
+	import {
+		Router,
+		Link,
+		Route,
+		navigate,
+		useNavigate,
+	} from "svelte-navigator";
+	import { SvelteToast } from "@zerodevx/svelte-toast";
+	import { onMount } from "svelte";
+	import { io } from "socket.io-client";
 
-	import FrontPage from "./pages/FrontPage.svelte"
-	import About from "./pages/About.svelte"
-	import Store from "./pages/StorePage.svelte"
-	import Profile from "./pages/Profile.svelte"
-	import MerchStorePage from "./pages/MerchStorePage.svelte"
-	import Banner from "./components/Banner.svelte"
-	import PrivateRoute from "./pages/PrivateRoute.svelte"
-	import PlayPage from "./pages/PlayPage.svelte"
-	import RegisterPage from "./pages/RegisterPage.svelte"
-	import RoomPage from "./pages/RoomPage.svelte"
-	import DisplayGame from "./pages/DisplayGame.svelte"
-	import CartOverview from "./pages/CartOverview.svelte"
-	import PlayerPage from "./pages/PlayerPage.svelte"
-	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte"
-	import PaymentPage from "./pages/PaymentPage.svelte"
-	import ThankYouPage from "./pages/ThankYouPage.svelte"
-	import PaymentFailed from "./pages/PaymentFailed.svelte"
+	import Banner from "./components/Banner.svelte";
+	import LoginForm from "./components/LoginForm.svelte";
+	
+	import FrontPage from "./pages/FrontPage.svelte";
+	import About from "./pages/About.svelte";
+	import Store from "./pages/StorePage.svelte";
+	import Profile from "./pages/Profile.svelte";
+	import MerchStorePage from "./pages/MerchStorePage.svelte";
+	import PrivateRoute from "./pages/PrivateRoute.svelte";
+	import PlayPage from "./pages/PlayPage.svelte";
+	import RegisterPage from "./pages/RegisterPage.svelte";
+	import RoomPage from "./pages/RoomPage.svelte";
+	import DisplayGame from "./pages/DisplayGame.svelte";
+	import CartOverview from "./pages/CartOverview.svelte";
+	import PlayerPage from "./pages/PlayerPage.svelte";
+	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte";
+	import PaymentPage from "./pages/PaymentPage.svelte";
+	import ThankYouPage from "./pages/ThankYouPage.svelte";
+	import PaymentFailed from "./pages/PaymentFailed.svelte";
 	import TestPage from "./pages/TestPage.svelte";
-
-	import {currentUser, playTime} from "./store/generalStore.js"
-	import {fetchOneUser} from "./store/util.js"
+	
+	import { isLoggedIn, playTime } from "./store/generalStore.js";
 
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
-/*
-	const getSocket =  () => {
-		const clientSocket = io("http://localhost:3000")
-		socket.set(clientSocket)
-		console.log("lol",socket);
-		console.log($socket);
-	}
-
-	onMount( async () => {
-		await getSocket()
-		console.log("onMount");
-		console.log($socket.connected);
-		console.log($socket.id);
-		console.log($socket);
-	})
-*/
-
-	
-	socket.on("connect", () => {
-		socket.emit("test", {data: socket.id})
-	})
-	
-	let email = "lol@lol.dk"
-	let password = "lol123"
-
-	async function handleLogInSubmit() {
-		const givenInfo = {email, password}
-		const fetchedUserData = await fetchOneUser(givenInfo)
-		console.log("user:", fetchedUserData);
-		$currentUser = {data: "ikke null"} //TODO: FIKS LOL
-
-		navigate("/", {replace: true})
-	}
 
 	function handleBackButton() {
 		$playTime = false;
-		navigate("/", {replace:true})
+		navigate("/", { replace: true })
 	}
 
 </script>
 
 <main>
-	<SvelteToast/>
+	<SvelteToast />
 	<Router>
 		<!-- Navbar and Banner for the webpage-->
 		{#if $playTime == false}
-		<!-- <Banner/> -->
-		<div id="headerDiv">
-		<div id="navDiv">
-		<nav>
-			<ul>
-				<li><Link to="/">Home</Link></li>
-				<li><Link to="about">About</Link></li>
-				<li><Link to="store">Store</Link></li>
-				<li><Link to="merch">Merch</Link></li>
-				{#if $currentUser != null}
-				<li><Link to="profile">Profile</Link></li>
+			<!-- <Banner/> -->
+			<div id="headerDiv">
+				<div id="navDiv">
+					<nav>
+						<ul>
+							<li><Link to="/">Home</Link></li>
+							<li><Link to="about">About</Link></li>
+							<li><Link to="store">Store</Link></li>
+							<li><Link to="merch">Merch</Link></li>
+							{#if $isLoggedIn != null}
+								<li><Link to="profile">Profile</Link></li>
+							{/if}
+							{#if $isLoggedIn == null}
+								<li><Link to="register">Register</Link></li>
+							{/if}
+							<li><Link to="cartList">Cart</Link></li>
+							<li><Link to="test">test</Link></li>
+						</ul>
+					</nav>
+				</div>
+				{#if !$isLoggedIn}
+					<LoginForm />
 				{/if}
-				{#if $currentUser == null}
-				<li><Link to="register">Register</Link></li>
-				{/if}
-				<li><Link to="cartList">Cart</Link></li>
-				<li><Link to="test">test</Link></li>
-				
-			</ul>
-		</nav>
-		</div>
-			<div id="loginDiv">
-				<form on:submit|preventDefault={handleLogInSubmit}>
-					<input
-						bind:value={email}
-						type="text"
-						name="email"
-						placeholder="email"
-					/>
-					<br />
-					<input
-						bind:value={password}
-						type="password"
-						name="password"
-						placeholder="Password"
-					/>
-					<br />
-					<button type="submit">Login</button>
-				
-				</form>
-			</div>		
-	</div>
-	{/if}
+			</div>
+		{/if}
 
-	{#if $playTime == true}
-	<!-- svelte-ignore a11y-missing-attribute -->
-	<img id="back-btn" src="images/backbutton.png" on:click|preventDefault={handleBackButton}>
-	{/if}
-		
+		{#if $playTime == true}
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<img
+				id="back-btn"
+				src="images/backbutton.png"
+				on:click|preventDefault={handleBackButton}
+			/>
+		{/if}
+
 		<Route path="/" primary={false}>
-			<FrontPage/>
+			<FrontPage />
 		</Route>
 		<Route path="about">
-			<About/>
+			<About />
 		</Route>
-		<Route path="store/*"  primary={false}>
+		<Route path="store/*" primary={false}>
 			<Route path="/">
-				<Store/>
+				<Store />
 			</Route>
 			<Route path=":id" let:params>
-				<DisplayGame id={params.id}/>
+				<DisplayGame id={params.id} />
 			</Route>
 		</Route>
 		<Route>
-			<MerchStorePage/>
+			<MerchStorePage />
 		</Route>
 		<PrivateRoute path="profile">
-			<Profile/>
+			<Profile />
 		</PrivateRoute>
 		<Route path="register">
-			<RegisterPage/>
+			<RegisterPage />
 		</Route>
 		<Route path="play">
-			<PlayPage socket={socket}/>
+			<PlayPage {socket} />
 		</Route>
 		<Route path="room" primary={false}>
-			<RoomPage socket={socket}/>
+			<RoomPage {socket} />
 		</Route>
-		<Route path="cartList" >
-			<CartOverview/>
+		<Route path="cartList">
+			<CartOverview />
 		</Route>
-		<Route path="paymentPage" >
-			<PaymentPage navigate=navigate/>
+		<Route path="paymentPage">
+			<PaymentPage navigate="navigate" />
 		</Route>
 		<Route path="thankYouPage">
-			<ThankYouPage/>
+			<ThankYouPage />
 		</Route>
 		<Route path="paymentFailed">
-			<PaymentFailed/>
+			<PaymentFailed />
 		</Route>
 		<Route path="player">
-			<PlayerPage socket={socket}/>
+			<PlayerPage {socket} />
 		</Route>
 		<Route path="FibOrDib">
-			<HostFibOrDibPage socket={socket}/>
+			<HostFibOrDibPage {socket} />
 		</Route>
 		<Route path="test">
-			<TestPage/>
+			<TestPage />
 		</Route>
 	</Router>
 </main>
 
 <footer>
 	{new Date().getFullYear()}
-	Contact
-	Other
-	FAQ
+	Contact Other FAQ
 </footer>
 
 <style>
@@ -189,58 +147,57 @@
 		z-index: -1;
 	}
 
-	body{ margin: 0 }
+	body {
+		margin: 0;
+	}
 
 	main {
-
-	background: rgb(0,38,54);
-	background: linear-gradient(90deg, rgba(0,38,54,1) 0%, rgba(3,61,85,1) 50%, rgba(0,38,54,1) 100%);
-	text-align: center;
-	max-width: 240px;
-	width: 100%;
-	min-height: calc(100vh - 2rem);
-} 
-#headerDiv {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-    background-color: #002636;
-	height: 15vh;
-}
-#navDiv {
-	display: flex;
-	justify-content: center;
-    flex-direction: row;
-	width: 75%;
+		background: rgb(0, 38, 54);
+		background: linear-gradient(
+			90deg,
+			rgba(0, 38, 54, 1) 0%,
+			rgba(3, 61, 85, 1) 50%,
+			rgba(0, 38, 54, 1) 100%
+		);
+		text-align: center;
+		/* max-width: 240px; */
+		width: 100%;
+		min-height: calc(100vh - 2rem);
 	}
-	
-ul {
-		
+	#headerDiv {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		background-color: #002636;
+		height: 15vh;
+	}
+	#navDiv {
+		display: flex;
+		justify-content: center;
+		flex-direction: row;
+		width: 75%;
+	}
+
+	ul {
 		list-style: none;
 		display: flex;
 		justify-content: center;
 		flex-direction: row;
 	}
-li{
-	font-size: xx-large;
+	li {
+		font-size: xx-large;
 		margin: 1em 2rem;
 	}
-#loginDiv {
+	#loginDiv {
 		float: right;
 		width: 20%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		margin-top: 1em;
-
 	}
-footer {
+	footer {
 		background-color: grey;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+		min-height: 32px;
 	}
 </style>

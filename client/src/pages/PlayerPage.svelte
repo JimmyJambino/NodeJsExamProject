@@ -1,6 +1,6 @@
 <script>
-    import {onMount} from "svelte"
-    import {currentUser, playTime} from "../store/generalStore.js"
+    import {  onMount} from "svelte"
+    import { isLoggedIn, playTime } from "../store/generalStore.js"
     export let socket
     let playerNumber
     let input

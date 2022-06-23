@@ -81,6 +81,10 @@ router.post("/login", async (req, res) => {
         }
         
         const accountFromDb = await db.get("SELECT hashed_password FROM accounts WHERE email = ?", [loginDetails.email])
+
+        if (!accountFromDb){
+            throw new Error("no user with that email", {cause: "incorrectEmail"})
+        }
     
         const isValidLogin = await compare(loginDetails.password, accountFromDb.hashed_password)
     
@@ -88,13 +92,19 @@ router.post("/login", async (req, res) => {
             req.session.isLoggedIn = true
             res.send({isLoggedIn: true})
         } else {
-            res.status(400).send({isLoggedIn: false})
+            throw new Error("Incorrect password", {cause : "incorrectPassword"})
         }
         
     } catch (err){
         switch (err.cause) {
             case "missingDetails":
-                res.status(400).send({errMsg: "Missing email or password"})
+                res.status(400).send({errMsg: "Missing email or password", cause: err.cause})
+                break;
+            case "incorrectEmail":
+                res.status(400).send({errMsg: "Incorrect login", cause: "incorrectLogin"})
+                break;
+            case "incorrectPassword":
+                res.status(400).send({errMsg: "incorrect login", cause: "incorrectLogin"})
                 break;
             default:
                 res.status(500).send({errMsg: "internal server error"})

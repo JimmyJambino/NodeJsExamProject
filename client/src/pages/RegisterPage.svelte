@@ -2,33 +2,68 @@
     import { toast } from "@zerodevx/svelte-toast";
     import { navigate } from "svelte-navigator";
 
-    let registerForm;
+    import { makeOptions } from "../store/util.js"
 
-    let firstName;
-    let lastName;
-    let email;
-    let password;
+    let registerForm
+
+    let firstName
+    let lastName
+    let email
+    let password
 
     async function handleRegister() {
         if (registerForm.reportValidity()) {
-            const response = await fetch("/api/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ firstName, lastName, email, password }),
-            })
+            const response = await fetch("/api/register", makeOptions("POST", { firstName, lastName, email, password }))
+            
+            if (response.ok) {
+                // back to previous page
+                navigate(-1);
+                
+                toast.push("Successfully signed up.\nPlease log in", {
+                    theme: {
+                        "--toastBackground": "#48BB78",
+                        "--toastBarBackground": "#2F855A",
+                    },
+                    duration: 5000,
+                })
+            } else {
+                const result = await response.json()
 
-            // back to previous page
-            navigate(-1)
-
-            toast.push("Successfully signed up.\n Please log in", {
-                theme: {
-                    "--toastBackground": "#48BB78",
-                    "--toastBarBackground": "#2F855A",
-                },
-                duration: 5000
-            })
+                switch (result.cause) {
+                    case "mailAlreadyExists":
+                        toast.push("Email already in use", {
+                            theme: {
+                                "--toastBackground": "#F56565",
+                                "--toastBarBackground": "#C53030",
+                            },
+                        })
+                        break;
+                    case "invalidEmail":
+                        toast.push("Email invalid", {
+                            theme: {
+                                "--toastBackground": "#F56565",
+                                "--toastBarBackground": "#C53030",
+                            },
+                        })
+                        break;
+                    case "invalidPassword":
+                        toast.push("password invalid", {
+                            theme: {
+                                "--toastBackground": "#F56565",
+                                "--toastBarBackground": "#C53030",
+                            },
+                        })
+                        break;
+                    default:
+                        toast.push("Server error", {
+                            theme: {
+                                "--toastBackground": "#F56565",
+                                "--toastBarBackground": "#C53030",
+                            },
+                        })
+                        break;
+                }
+            }
         } else {
             toast.push("Please provide all details", {
                 theme: {
@@ -42,36 +77,39 @@
 
 <div id="register-wrapper">
     <form bind:this={registerForm} id="register-form">
-        <input
-            bind:value={firstName}
-            type="text"
-            placeholder="First name"
-            required
-        />
-        <input
-            bind:value={lastName}
-            type="text"
-            placeholder="Last name"
-            required
-        />
-        <input
-            bind:value={email}
-            type="email"
-            placeholder="mail@mail.com"
-            required
-        />
-        <input
-            bind:value={password}
-            type="password"
-            placeholder="password"
-            required
-        />
-
-        <input
-            type="submit"
-            id="submit"
-            on:click|preventDefault={handleRegister}
-        />
+        <div>
+            <input
+                bind:value={firstName}
+                type="text"
+                placeholder="First name"
+                required
+            />
+            <input
+                bind:value={lastName}
+                type="text"
+                placeholder="Last name"
+                required
+            />
+            <input
+                bind:value={email}
+                type="email"
+                placeholder="mail@mail.com"
+                required
+            />
+            <input
+                bind:value={password}
+                type="password"
+                placeholder="password"
+                required
+            />
+    
+            <input
+                type="submit"
+                id="submit"
+                value="Register"
+                on:click|preventDefault={handleRegister}
+            />
+        </div>
     </form>
 </div>
 
@@ -86,13 +124,18 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 15em;
-        padding-top: 5em;
+        border-radius: 2em;
+        box-shadow: 15px 5px 25px rgba(0, 0, 0, 0.3);
+        width: 20em;
+        padding: 2em;
+        margin-top: 20vh;
     }
 
+
     #submit {
-        width: 60%;
+        width: 10em;
         margin-top: 2em;
+        border-radius: 0.5em;
         align-self: center;
     }
 </style>
