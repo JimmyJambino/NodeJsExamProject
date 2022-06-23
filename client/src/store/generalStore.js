@@ -7,6 +7,9 @@ export const currentUser = writable(null)
 export const playTime = writable(false)
 export const rooms = writable(new Map())
 
+//cart for webstore
+export const cartList = writable([])
+
 //export const savedRoomKey = writable("")
 
 //import {io} from "socket.io-client"

@@ -18,8 +18,10 @@ async function makeSchemas() {
         CREATE TABLE IF NOT EXISTS games (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(50) NOT NULL,
+        imgSrc VARCHAR(300) NOT NULL,
         price DOUBLE NOT NULL,
-        description VARCHAR(150)
+        description VARCHAR(150),
+        rating INTEGER NOT NULL
     );`)
     
     await db.exec(`CREATE TABLE IF NOT EXISTS orders (

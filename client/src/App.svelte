@@ -1,15 +1,18 @@
 <script>
 	import { Router, Link, Route, navigate, useNavigate } from "svelte-navigator"
+	import { SvelteToast } from "@zerodevx/svelte-toast"
+	import {onMount} from "svelte"
+	import {io} from "socket.io-client"
+
 	import FrontPage from "./pages/FrontPage.svelte"
 	import About from "./pages/About.svelte"
-	import Store from "./pages/Store.svelte"
+	import Store from "./pages/StorePage.svelte"
 	import Profile from "./pages/Profile.svelte"
 	import MerchStorePage from "./pages/MerchStorePage.svelte"
 	import Banner from "./components/Banner.svelte"
 	import PrivateRoute from "./pages/PrivateRoute.svelte"
 	import PlayPage from "./pages/PlayPage.svelte"
-	import {currentUser, playTime} from "./store/generalStore.js"
-	import Register from "./pages/Register.svelte"
+	import RegisterPage from "./pages/RegisterPage.svelte"
 	import RoomPage from "./pages/RoomPage.svelte"
 	import DisplayGame from "./pages/DisplayGame.svelte"
 	import CartOverview from "./pages/CartOverview.svelte"
@@ -18,9 +21,10 @@
 	import PaymentPage from "./pages/PaymentPage.svelte"
 	import ThankYouPage from "./pages/ThankYouPage.svelte"
 	import PaymentFailed from "./pages/PaymentFailed.svelte"
-	import {onMount} from "svelte"
+	import TestPage from "./pages/TestPage.svelte";
+
+	import {currentUser, playTime} from "./store/generalStore.js"
 	import {fetchOneUser} from "./store/util.js"
-	import {io} from "socket.io-client"
 
 	//function to get an individual socket
 	const socket = io("http://localhost:3000")
@@ -66,10 +70,11 @@
 </script>
 
 <main>
+	<SvelteToast/>
 	<Router>
 		<!-- Navbar and Banner for the webpage-->
 		{#if $playTime == false}
-		<Banner/>
+		<!-- <Banner/> -->
 		<div id="headerDiv">
 		<div id="navDiv">
 		<nav>
@@ -85,6 +90,7 @@
 				<li><Link to="register">Register</Link></li>
 				{/if}
 				<li><Link to="cartList">Cart</Link></li>
+				<li><Link to="test">test</Link></li>
 				
 			</ul>
 		</nav>
@@ -138,7 +144,7 @@
 			<Profile/>
 		</PrivateRoute>
 		<Route path="register">
-			<Register/>
+			<RegisterPage/>
 		</Route>
 		<Route path="play">
 			<PlayPage socket={socket}/>
@@ -164,6 +170,9 @@
 		<Route path="FibOrDib">
 			<HostFibOrDibPage socket={socket}/>
 		</Route>
+		<Route path="test">
+			<TestPage/>
+		</Route>
 	</Router>
 </main>
 
@@ -179,24 +188,28 @@
 		float: left;
 		z-index: -1;
 	}
-main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-		min-height: calc(100vh - 4em); 
-	} 
+
+	body{ margin: 0 }
+
+	main {
+
+	background: rgb(0,38,54);
+	background: linear-gradient(90deg, rgba(0,38,54,1) 0%, rgba(3,61,85,1) 50%, rgba(0,38,54,1) 100%);
+	text-align: center;
+	max-width: 240px;
+	width: 100%;
+	min-height: calc(100vh - 2rem);
+} 
 #headerDiv {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-
-    background-color: rgba(112,146,190,255);
+    background-color: #002636;
+	height: 15vh;
 }
 #navDiv {
 	display: flex;
 	justify-content: center;
-   
     flex-direction: row;
 	width: 75%;
 	}
@@ -210,11 +223,15 @@ ul {
 	}
 li{
 	font-size: xx-large;
-		margin: 30px
+		margin: 1em 2rem;
 	}
 #loginDiv {
 		float: right;
 		width: 20%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-top: 1em;
 
 	}
 footer {
