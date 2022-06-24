@@ -44,7 +44,7 @@
         redirect: 'if_required'
       })
     // log results, for debugging
-    console.log({result})
+    console.log("result:",{result})
     if (result.error) {
       // payment failed, notify user
       error = result.error
@@ -52,6 +52,7 @@
       navigate("paymentFailed")
     } else {
       // payment succeeded, redirect to "thank you" page
+
       navigate("thankYouPage")
     }
   }

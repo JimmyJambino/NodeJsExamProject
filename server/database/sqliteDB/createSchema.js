@@ -35,7 +35,8 @@ async function makeSchemas() {
     `)
 
     //many to many relationship table
-    await db.exec(`CREATE TABLE IF NOT EXISTS accounts_games  (
+    await db.exec(`DROP TABLE IF EXISTS accounts_games;
+        CREATE TABLE IF NOT EXISTS accounts_games  (
         account_id INTEGER NOT NULL,
         game_id INTEGER NOT NULL
     );`)

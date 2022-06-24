@@ -82,11 +82,11 @@ function cartSize(cart)  {
 	<Router>
 		<!-- Navbar and Banner for the webpage-->
 		{#if $playTime == false}
-		<!-- <Banner/> -->
 		<div id="headerDiv">
-		<div id="navDiv">
-		<nav>
-			<ul>
+			<div id="navDiv">
+				<nav>
+					<ul>
+				<li id="bannerL"><Link to="/"><Banner/></Link></li>
 				<li><Link to="/">Home</Link></li>
 				<li><Link to="store">Store</Link></li>
 				<li><Link to="merch">Merch</Link></li>
@@ -198,6 +198,10 @@ function cartSize(cart)  {
 </footer>
 
 <style>
+	#bannerL {
+		margin: 0;
+		align-self: center;
+	}
 	#back-btn {
 		float: left;
 		z-index: -1;
@@ -229,7 +233,7 @@ function cartSize(cart)  {
 	}
 	
 ul {
-		
+		padding: 0;
 		list-style: none;
 		display: flex;
 		justify-content: center;

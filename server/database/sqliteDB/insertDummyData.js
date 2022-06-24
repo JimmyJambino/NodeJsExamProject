@@ -63,6 +63,9 @@ export async function dummyAccount(){
     ["Michael", "Westh", "lol@lol.dk", hashedPassword])
 }
 
+export async function dummyAccoutGamesConnections() {
+    db.run(`INSERT INTO accounts_games VALUES (1,1);`)
+}
 
 
 

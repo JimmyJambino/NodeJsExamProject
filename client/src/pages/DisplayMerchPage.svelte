@@ -2,7 +2,7 @@
     import {cartList} from "../store/generalStore.js"
     import { navigate } from "svelte-navigator"
     import {allMerch} from "../store/merchStore.js"
-    //import { toast } from "@zerodevx/svelte-toast";
+    import { toast } from "@zerodevx/svelte-toast";
     
     
     

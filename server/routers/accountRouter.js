@@ -2,6 +2,8 @@ import db from "../database/sqliteDB/createConnection.js"
 import { Router } from "express"
 import { compare } from "bcrypt"
 import { createAccount } from "../database/sqliteDB/crudFunctions/crudAccounts.js"
+import { getPassword ,readAccountByEmail} from "../database/sqliteDB/crudFunctions/crudAccounts.js"
+import { readAllGamesByAccountId } from "../database/sqliteDB/crudFunctions/crudAccountsGames.js"
 
 const ROUNDS = 12
 
@@ -17,9 +19,8 @@ router.post("/register", async (req, res) => {
             throw new Error("Missing details", {cause: "missingDetails"})
         }
     
-        const userExists = await db.get("SELECT * FROM accounts WHERE email= $email", {
-            $email: providedDetails.email
-        })
+        const userExists = await readAccountByEmail(providedDetails.email)
+        
     
         if(userExists){
             throw new Error("user with that mail already exists", {cause: "mailAlreadyExists"})
@@ -80,13 +81,15 @@ router.post("/login", async (req, res) => {
             throw new Error("missing email or password", {cause: "missingDetails"})
         }
         
-        const accountFromDb = await db.get("SELECT hashed_password FROM accounts WHERE email = ?", [loginDetails.email])
-    
-        const isValidLogin = await compare(loginDetails.password, accountFromDb.hashed_password)
+        const accountFromDatabase = await readAccountByEmail(loginDetails.email)
+        //checks pw
+        const isValidLogin = await compare(loginDetails.password, accountFromDatabase.hashed_password)
     
         if(isValidLogin){
+            const listOfOwnedGames = await readAllGamesByAccountId(accountFromDatabase.id)
             req.session.isLoggedIn = true
-            res.send({isLoggedIn: true})
+            req.session.accountId = accountFromDatabase.id
+            res.send({isLoggedIn: true, ownedGames: listOfOwnedGames})
         } else {
             res.status(400).send({isLoggedIn: false})
         }
