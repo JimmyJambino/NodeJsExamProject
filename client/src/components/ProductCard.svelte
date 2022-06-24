@@ -13,15 +13,15 @@
 
     function checkIfInCartOrOwned(cart,ownedGames) {
         let boolean = false;
-        
+        //checks the cart for items
         cart.forEach(element => {
             if (element.title == productInfo.title && productInfo.type == undefined ){
                 boolean = true
             }
         });
-
+        //checks if the account already owns the GAME
         ownedGames.forEach(element => {
-            if (element.game_id === productInfo.id) {
+            if (element.game_id === productInfo.id && productInfo.type != "clothing" ) {
                 boolean = true
             }
         })
