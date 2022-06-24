@@ -5,11 +5,8 @@
     import { isLoggedIn, playTime } from "../store/generalStore.js"
     export let socket
     $:playerOptions = [] // {player, option}
-    let playerNumber
-    let input // textInput from the player
 
-    //$:multipleChoice = false
-    $:textInput = true // needs to be set from the host socket emit
+    let input // textInput from the player
     let playerSocket = socket
     let header = "Waiting for host to start game... " // why doesn't this variable need $? it is still reactive tho?
     
@@ -26,19 +23,18 @@
     socket.on("playerNumber", (data) => {
         playerNumber = data
     })
-    socket.on("player:options", (array) => { // consists of players with {input, socketId} use socket.id as the player
-        playerOptions = array //  Timing needs to be fixed.
+    socket.on("player:options", (optionArray) => { // consists of players with {owner, input, tally} use socket.id as the player, but tally is not used here.
+        playerOptions = optionArray //  Timing needs to be fixed.
         awaitingOptionInput.set(true)
         header = "Choose an answer!"
     })
 
     function sendInputAnswer() {
         const answer = {
-            input,
-            socketId: socket.id
+            owner: socket.id,
+            input
         }
-        socket.emit("room:inputAnswer", answer)
-        //textInput = false
+        socket.emit("player:inputAnswer", answer)
         awaitingTextInput.set(false)
     }
 
@@ -85,5 +81,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-size: 20px;
+        color: white;
+    }
+    .header {
+        padding: 5vh;
+    }
+    .inputs {
+        padding: 5vh;
     }
 </style>

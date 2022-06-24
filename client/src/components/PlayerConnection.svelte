@@ -1,6 +1,7 @@
 <script>
     export let player
 </script>
+
 {#if player != undefined}
 <div id={player.name} class="connection">
     {player.name}
@@ -17,5 +18,7 @@
     .connection {
         max-width: 3em;
         max-height: 3em;
+        /* color: white;
+        font-size: 20px; */
     }
 </style>

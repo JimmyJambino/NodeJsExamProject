@@ -15,7 +15,8 @@ export function playerJoin(socket) {
     socket.on("room:playerJoined", (data) => {
         const player = {
             name: data.playerName,
-            id: socket.id
+            id: socket.id,
+            score: 0
         }
         socket.join(data.roomKey) 
         socket.to(data.roomKey).emit("room:playerHasJoined", player)
@@ -36,10 +37,10 @@ export function helloMessage(socket) { // Can we remove this?
     })
 }
 
-export function createRoom(socket, playerNumberCap){
+export function createRoom(socket){
     //4 char random code of numbers and letters
     const roomKey = crypto.randomBytes(2).toString("hex").toUpperCase()
-    socket.on("room:hostJoined", (data) => {
+    socket.on("room:hostJoined", () => {
         socket.join(roomKey)
         console.log("Host joined.")
         rooms.set(roomKey, [socket.id]) // creates a new key-value pair with an array as the value
