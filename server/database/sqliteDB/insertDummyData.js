@@ -34,7 +34,7 @@ export async function createDummyGames() { // To fill out the database for testi
         new Game(null,"No more sadGe",  "https://www.streamscheme.com/wp-content/uploads/2022/02/sadge-600.png", 15, "Tired of being unmotivated and depressed? Shoot all the sadGe emotes to increase your happiness!",3),
         new Game(null,"YaYeet!!",  "https://mystickermania.com/cdn/stickers/games/roblox-yeet-512x512.png", 15, "Throw some random stuff around and pray the cops wont get you",2),
         new Game(null,"B R E A D",  "https://www.kohberg.com/media/spedopcl/250821-kohberg-40-kopier.png?width=500&quality=80", 15, "Bread",5),
-        new Game(null,"IT'S MORBIN TIME",  "https://www.gamelivestory.com/thumb/web-story-square/images/article/its-morbin-time-how-morbius-became-a-meme-main.webp", 15, "Jared Leto is back to destroy your favourite characters! Join him, as he inevitable..",3)
+        new Game(null,"IT'S MORBIN TIME",  "https://www.gamelivestory.com/thumb/web-story-square/images/article/its-morbin-time-how-morbius-became-a-meme-main.webp", 15, "Jared Leto is back to destroy your favourite characters! Join him, as he is inevitable..",3)
     ]
     games.forEach(game => {
         db.run(`INSERT INTO games (name, imgSrc, price, description,rating) VALUES (?, ?, ?,?,?)`, 
@@ -65,6 +65,7 @@ export async function dummyAccount(){
 
 export async function dummyAccoutGamesConnections() {
     db.run(`INSERT INTO accounts_games VALUES (1,1);`)
+    db.run(`INSERT INTO accounts_games VALUES (1,3);`)
 }
 
 

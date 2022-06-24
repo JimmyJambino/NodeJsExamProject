@@ -31,9 +31,7 @@
 	import TestPage from "./pages/TestPage.svelte";
 	import DisplayMerchPage from "./pages/DisplayMerchPage.svelte";
 
-	import { isLoggedIn, playTime } from "./store/generalStore.js";
-	import { cartList } from "./store/generalStore.js";
-
+	import { isLoggedIn, playTime, cartList } from "./store/generalStore.js";
 	//function to get an individual socket
 	const socket = io("http://localhost:3000");
 
@@ -50,6 +48,7 @@
 			return "";
 		}
 	}
+	console.log("logged in :",$isLoggedIn);
 </script>
 
 <main>
@@ -65,15 +64,16 @@
 							<li><Link to="/">Home</Link></li>
 							<li><Link to="store">Store</Link></li>
 							<li><Link to="merch">Merch</Link></li>
-							{#if $currentUser != null}
+							{#if $isLoggedIn != null}
 								<li><Link to="profile">Profile</Link></li>
 							{/if}
-							{#if $currentUser == null}
+							{#if $isLoggedIn == null}
 								<li><Link to="register">Register</Link></li>
 							{/if}
 						</ul>
 					</nav>
 				</div>
+				<LoginForm/>
 			</div>
 		{/if}
 

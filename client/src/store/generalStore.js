@@ -5,7 +5,7 @@ export const baseURL = readable("http://localhost:3000")
 export const isLoggedIn = writable(null)
 export const playTime = writable(false)
 export const rooms = writable(new Map())
-
+export const ownedGames = writable([])
 //cart for webstore
 export const cartList = writable([])
 

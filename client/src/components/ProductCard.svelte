@@ -3,26 +3,34 @@
     import {navigate} from "svelte-navigator"
     import { createEventDispatcher } from "svelte";
     import { fly } from "svelte/transition"
-    import { cartList } from "../store/generalStore.js"
-
+    import { cartList,ownedGames } from "../store/generalStore.js"
+    
 
     export let productInfo;
     const { title, imgSrc, description, price, qty } = productInfo;
 
     const dispatch = createEventDispatcher();
 
-    $: check = checkIfInCart($cartList)
-    
-    function checkIfInCart(items) {
+    function checkIfInCartOrOwned(cart,ownedGames) {
         let boolean = false;
         
-        items.forEach(element => {
+        cart.forEach(element => {
             if (element.title == productInfo.title && productInfo.type == undefined ){
                 boolean = true
             }
         });
+
+        ownedGames.forEach(element => {
+            if (element.game_id === productInfo.id) {
+                boolean = true
+            }
+        })
+
         return boolean
     }
+
+    $: check = checkIfInCartOrOwned($cartList,$ownedGames)
+    
 
 
     function addToCart() {
@@ -48,7 +56,7 @@
             {#if qty}
                 <p>in stock: {qty}</p>
             {/if}
-            {#if !check}
+            {#if !check} <!-- checks if the item is in the cart or already owned  -->
             <button id="buy-btn" on:click|stopPropagation={() => { addToCart(productInfo)}}>Add to cart</button>
             {/if}
         </div>
