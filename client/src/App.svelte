@@ -12,7 +12,7 @@
 
 	import Banner from "./components/Banner.svelte";
 	import LoginForm from "./components/LoginForm.svelte";
-
+	import {fly} from "svelte/transition"
 	import FrontPage from "./pages/FrontPage.svelte";
 	import Store from "./pages/StorePage.svelte";
 	import Profile from "./pages/Profile.svelte";
@@ -69,7 +69,7 @@
 							{#if $isLoggedIn == null}
 								<li><Link to="register">Register</Link></li>
 							{/if}
-							<li><Link to="cartList">Cart{cartSize(cart)}</Link></li>
+							<li><Link to="cartList">Cart {cartSize(cart)}</Link></li>
 						</ul>
 					</nav>
 				</div>
