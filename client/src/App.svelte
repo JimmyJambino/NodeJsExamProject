@@ -29,10 +29,10 @@
 	import ThankYouPage from "./pages/ThankYouPage.svelte";
 	import PaymentFailed from "./pages/PaymentFailed.svelte";
 	import TestPage from "./pages/TestPage.svelte";
-	import DisplayMerchPage from "./pages/DisplayMerchPage.svelte"
+	import DisplayMerchPage from "./pages/DisplayMerchPage.svelte";
 
 	import { isLoggedIn, playTime } from "./store/generalStore.js";
-	import { cartList } from "./store/generalStore.js"
+	import { cartList } from "./store/generalStore.js";
 
 	//function to get an individual socket
 	const socket = io("http://localhost:3000");
@@ -57,28 +57,23 @@
 	<Router>
 		<!-- Navbar and Banner for the webpage-->
 		{#if $playTime == false}
-			<!-- <Banner/> -->
 			<div id="headerDiv">
 				<div id="navDiv">
 					<nav>
 						<ul>
+							<li id="bannerL"><Link to="/"><Banner /></Link></li>
 							<li><Link to="/">Home</Link></li>
 							<li><Link to="store">Store</Link></li>
 							<li><Link to="merch">Merch</Link></li>
-							{#if $isLoggedIn != null}
+							{#if $currentUser != null}
 								<li><Link to="profile">Profile</Link></li>
 							{/if}
-							{#if $isLoggedIn == null}
+							{#if $currentUser == null}
 								<li><Link to="register">Register</Link></li>
 							{/if}
-							<li><Link to="cartList">Cart{cartSize($cartList)}</Link></li>
-							<li><Link to="test">test</Link></li>
 						</ul>
 					</nav>
 				</div>
-				{#if !$isLoggedIn}
-					<LoginForm />
-				{/if}
 			</div>
 		{/if}
 
@@ -155,6 +150,10 @@
 </footer>
 
 <style>
+	#bannerL {
+		margin: 0;
+		align-self: center;
+	}
 	#back-btn {
 		float: left;
 		z-index: -1;
@@ -192,6 +191,7 @@
 	}
 
 	ul {
+		padding: 0;
 		list-style: none;
 		display: flex;
 		justify-content: center;

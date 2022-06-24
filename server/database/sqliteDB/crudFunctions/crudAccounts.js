@@ -23,6 +23,15 @@ async function readAccount(accountId) {
     return result
 }
 
+//used to check if password is correct
+export async function getPassword(email) {
+    const result = await db.get("SELECT hashed_password FROM accounts WHERE email = ?", [email])
+    return result
+}
+export async function readAccountByEmail(email){
+    const result = await db.get("SELECT * FROM accounts WHERE email = ?", [email])
+    return result
+}
 
 export async function readAllAccounts() {
     const result = await db.all(`SELECT * FROM accounts`)
