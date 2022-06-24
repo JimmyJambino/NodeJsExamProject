@@ -48,7 +48,6 @@
 			return "";
 		}
 	}
-	console.log("logged in :",$isLoggedIn);
 </script>
 
 <main>
@@ -70,6 +69,7 @@
 							{#if $isLoggedIn == null}
 								<li><Link to="register">Register</Link></li>
 							{/if}
+							<li><Link to="cartList">Cart{cartSize(cart)}</Link></li>
 						</ul>
 					</nav>
 				</div>
