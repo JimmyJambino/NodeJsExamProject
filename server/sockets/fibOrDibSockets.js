@@ -29,9 +29,9 @@ function startRound(socket) {
 }
 
 function inputAnswer(socket) {
-    socket.on("room:inputAnswer", data => { // receives answer from players
+    socket.on("player:inputAnswer", answer => { // receives answer from players
         const roomKey = getRoomBySocketId(rooms, socket.id)
-        socket.to(roomKey).emit("room:inputAnswer", data) // saves answer at host
+        socket.to(roomKey).emit("room:inputAnswer", answer) // saves answer at host
     })
 }
 
@@ -40,15 +40,15 @@ function optionsAnswer(socket) {
     // choice: playerAnswer.input, // the choice
     // optionOwner: playerAnswer.socket.id // the choice owner
  
-    socket.on("room:optionsAnswer", data => { // receives optional answer from players
+    socket.on("player:optionAnswer", data => { // receives optional answer from players
         const roomKey = getRoomBySocketId(rooms, socket.id)
-        socket.to(roomKey).emit("player:receiveOptions", data) // saves that choice to the host
+        socket.to(roomKey).emit("room:optionAnswer", data) // saves that choice to the host
     }) 
 }
 
 // ############ PLAYER ############
 function fibdibArrayAnswer(socket) {
-    socket.on("room:fibdibArrayAnswer", array => { // receives array of players with {input, socketId}
+    socket.on("room:optionArray", array => { // receives array of players with {input, socketId}
         const roomKey = getRoomBySocketId(rooms, socket.id)
         socket.to(roomKey).emit("player:options", array) // sends answers to the players, but this should wait until all answers have been submitted or time runs out.
     })

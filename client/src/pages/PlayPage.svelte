@@ -79,6 +79,7 @@ socket.on("room:hello", (data) => {
         flex-direction: column;
         justify-content: center;
         width: 50%;
+        color: white;
     }
     #playerDiv {
         display: flex;
