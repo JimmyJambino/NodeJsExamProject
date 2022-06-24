@@ -1,5 +1,5 @@
 <script>
-    import { cartList } from "../store/generalStore.js";
+    import { cartList, cartTotal } from "../store/generalStore.js";
     import { navigate } from "svelte-navigator"
     import ItemTable from "../components/Table/ItemTable.svelte"
     import { isLoggedIn } from "../store/generalStore.js"
@@ -25,6 +25,8 @@
     $: totalSum = $cartList.reduce(function (total, item) {
         return total + item.price;
     }, initialValue);
+    
+    $cartTotal = totalSum
 
     $: cartSize = $cartList
 </script>

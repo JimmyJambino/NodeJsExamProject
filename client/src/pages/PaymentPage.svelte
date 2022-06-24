@@ -3,6 +3,8 @@
     import { PaymentElement } from  'svelte-stripe'
     import { onMount } from 'svelte'
     import {navigate} from "svelte-navigator"
+import { cartList, cartTotal, ownedGames } from '../store/generalStore';
+import { makeOptions } from '../store/util';
   
     let stripe = null
     let clientSecret = null
@@ -26,7 +28,7 @@
         headers: {
             'content-type': 'application/json'
         },
-        body: JSON.stringify({amount: 100})
+        body: JSON.stringify({amount: $cartTotal})
         })
 
         const clientSecret = await response.json()
@@ -52,7 +54,25 @@
       navigate("paymentFailed")
     } else {
       // payment succeeded, redirect to "thank you" page
+      // find the games that were bought and add them to the accounts games table
+      const gameIds = $cartList.map(item => {
+        if (!item.type){
+          return item.id
+        }
+      })
 
+      if (gameIds){
+        fetch("/api/linkGames", makeOptions("POST", {gameIds}))
+      }
+
+      $cartList = []
+      $ownedGames = [...$ownedGames, ...gameIds.map((gameId) => {
+                return {
+                    game_id: gameId
+                }
+            })]
+
+      console.log($ownedGames)
       navigate("thankYouPage")
     }
   }

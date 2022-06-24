@@ -159,10 +159,6 @@
 		z-index: -1;
 	}
 
-	body {
-		margin: 0;
-	}
-
 	main {
 		background: rgb(0, 38, 54);
 		background: linear-gradient(

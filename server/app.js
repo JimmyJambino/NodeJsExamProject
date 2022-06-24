@@ -22,7 +22,8 @@ const sessionMiddleware = session({
     saveUninitialized: false,
     cookie: {
 		httpOnly: true,
-		secure: false
+		secure: false,
+        sameSite: true
 	}
 })
 

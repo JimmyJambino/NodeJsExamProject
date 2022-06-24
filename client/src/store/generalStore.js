@@ -9,6 +9,8 @@ export const ownedGames = writable([])
 //cart for webstore
 export const cartList = writable([])
 
+export const cartTotal = writable(0)
+
 //export const savedRoomKey = writable("")
 
 //import {io} from "socket.io-client"
