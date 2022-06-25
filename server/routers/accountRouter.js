@@ -10,6 +10,20 @@ const ROUNDS = 12
 
 const router = Router()
 
+//used to check if user is eligible to HOST a game
+router.post("/checkGameOwnership", async (req,res) => {
+    const providedDetails = req.body //{game_id: 1}
+    console.log("owned games:",req.session.ownedGames);
+    if (req.session.isLoggedIn && req.session.ownedGames.includes(providedDetails.game_id)) {
+        console.log("VI ER VALID, account router");
+        res.status(200).send({validOwnership: true})
+    } else {
+        res.status(400).send({validOwnership: false})
+    }
+    
+
+})
+
 // Sign up
 router.post("/register", async (req, res) => {
     try{
@@ -91,9 +105,13 @@ router.post("/login", async (req, res) => {
     
         if(isValidLogin){
             const listOfOwnedGames = await readAllGamesByAccountId(accountFromDatabase.id)
+            const alteredListOfGames = listOfOwnedGames.map( (game) => {
+                return game.game_id
+            })
             req.session.isLoggedIn = true
             req.session.accountId = accountFromDatabase.id
-            res.send({isLoggedIn: true, ownedGames: listOfOwnedGames})
+            req.session.ownedGames = alteredListOfGames
+            res.send({isLoggedIn: true, ownedGames: listOfOwnedGames, user: {email:accountFromDatabase.email} })
         } else {
             throw new Error("Incorrect password", {cause : "incorrectPassword"})
         }

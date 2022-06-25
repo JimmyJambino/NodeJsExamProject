@@ -12,6 +12,6 @@ await dummyMerch()
 await dummyAccoutGamesConnections()
 
 
-console.log(await readAllAccounts());
+//console.log(await readAllAccounts());
 //console.log(await readAllGames());
 console.log((await readAllGamesByAccountId(1)));
