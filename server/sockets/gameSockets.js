@@ -5,7 +5,7 @@ import { rooms } from './joinRoom.js'
 // This script should include the general functions for inputs, options etc that a player/client can send to the host and vice versa
 export function combineFibOrDib(socket) {
     inputAnswer(socket)
-    fibdibArrayAnswer(socket)
+    optionArray(socket)
     optionsAnswer(socket)
     startGame(socket)
     startRound(socket)
@@ -16,7 +16,7 @@ export function combineFibOrDib(socket) {
 function startGame(socket) {
     socket.on("room:startGame", (data) => {
         //socket.join(data.roomKey)
-        socket.to(data.roomKey).emit("room:gameStarting", {})
+        socket.to(data.roomKey).emit("player:gameStarting", {})
         console.log("Host started game on:", data.roomKey)
     })
 }
@@ -29,7 +29,7 @@ function startRound(socket) {
 }
 
 function inputAnswer(socket) {
-    socket.on("player:inputAnswer", answer => { // receives answer from players
+    socket.on("room:inputAnswer", answer => { // receives answer from players
         const roomKey = getRoomBySocketId(rooms, socket.id)
         socket.to(roomKey).emit("room:inputAnswer", answer) // saves answer at host
     })
@@ -40,14 +40,14 @@ function optionsAnswer(socket) {
     // choice: playerAnswer.input, // the choice
     // optionOwner: playerAnswer.socket.id // the choice owner
  
-    socket.on("player:optionAnswer", data => { // receives optional answer from players
+    socket.on("room:optionAnswer", data => { // receives optional answer from players
         const roomKey = getRoomBySocketId(rooms, socket.id)
         socket.to(roomKey).emit("room:optionAnswer", data) // saves that choice to the host
     }) 
 }
 
 // ############ PLAYER ############
-function fibdibArrayAnswer(socket) {
+function optionArray(socket) {
     socket.on("room:optionArray", array => { // receives array of players with {input, socketId}
         const roomKey = getRoomBySocketId(rooms, socket.id)
         socket.to(roomKey).emit("player:options", array) // sends answers to the players, but this should wait until all answers have been submitted or time runs out.

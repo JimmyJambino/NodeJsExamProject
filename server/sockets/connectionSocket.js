@@ -3,9 +3,9 @@
 import crypto from "crypto";
 import { Socket } from "socket.io";
 export let rooms = new Map()
-export function combineFunctions(socket) {
+export function combineConnectionSockets(socket) {
     playerJoin(socket)
-    hostJoin(socket)
+    //hostJoin(socket)
     createRoom(socket)
     spec(socket)
     disconnect(socket)
@@ -24,18 +24,18 @@ export function playerJoin(socket) {
     })
 }
 
-export function hostJoin(socket) {
-    socket.on("hostJoined", (data) => {
-        socket.join(data.roomKey)
-        console.log("Host joined.")
-    })
-}
+// export function hostJoin(socket) {
+//     socket.on("hostJoined", (data) => {
+//         socket.join(data.roomKey)
+//         console.log("Host joined.")
+//     })
+// }
 
-export function helloMessage(socket) { // Can we remove this?
-    socket.on("room:hello", (data) => {
-        socket.to(data.roomKey).emit("room:hello", (data.data))
-    })
-}
+// export function helloMessage(socket) { // Can we remove this?
+//     socket.on("room:hello", (data) => {
+//         socket.to(data.roomKey).emit("room:hello", (data.data))
+//     })
+// }
 
 export function createRoom(socket){
     //4 char random code of numbers and letters
@@ -50,12 +50,6 @@ export function createRoom(socket){
     //send the roomcode back to the host so it can be displayed
 }
 
-function joinRoom(socket){ // Can we remove this?
-    socket.on("room:playerJoin", ({roomKey}) => {
-        socket.join(roomKey)
-    })
-}
-
 export function spec(socket) {// rename this function
     socket.on("playerNumber", (data) => {
         socket.to(data.id).emit("playerNumber", data.number)
@@ -67,11 +61,10 @@ import { getRoomBySocketId } from './socketUtils.js'
 
 export function disconnect(socket) { 
     socket.on("disconnecting", (reason) => { // reason is the error message.
-        for(const room of socket.rooms) {
-            if(room !== socket.id) {
-                const roomKey = getRoomBySocketId(rooms, socket.id)
-                console.log("Room key for disconnection:", roomKey)
-                socket.to(roomKey).emit("disconnectedPlayer", socket.id)
+        for(const room of socket.rooms) { // socket.rooms is the same rooms as at the top of this file
+            if(room !== socket.id) { // checks each individual socket if it is the one that was disconnected
+                const roomKey = getRoomBySocketId(rooms, socket.id) // gets roomKey by the host socket
+                socket.to(roomKey).emit("disconnectedPlayer", socket.id) // emits to the host that a player with their respective socket id has disconnected.
             }
         }
     })

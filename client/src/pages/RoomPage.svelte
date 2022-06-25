@@ -1,10 +1,11 @@
 <script>
 // Rename to Hostpage? Makes more sense as the game actually runs here on the host, and it isn't *just* a room.
 import {onMount} from "svelte"
-import PlayerConnection from "../components/PlayerConnection.svelte";
+import PlayerConnection from "../components/Game/PlayerConnection.svelte";
 import { awaitingOptionInput, awaitingTextInput } from "../store/gameControllerStore";
 import RoundScore from "../components/Game/RoundScore.svelte";
 import {fade, fly} from 'svelte/transition'
+import { transition_in } from "svelte/internal";
 export let socket
 let gameMusic = new Audio('audio/themesong.mp3') // mySound.loop = true, to loop
 gameMusic.volume = 0.2;
@@ -33,16 +34,16 @@ socket.on("room:playerHasJoined", player => {
 }) 
 
 // ###### NEED AN OPTION TO BOOT ALL PLAYERS
-socket.on("disconnectedPlayer", (data) => {
-    console.log("Disconnected player:", data)
+socket.on("room:disconnectedPlayer", (player) => {
+    //console.log("Disconnected player:", player)
     for(let i = 0; i < players.length; i++) {
-        if(players[i] !== undefined && players[i].id === data) { // finds the socket.id from the disconnected player and removes them from the game (visually)
+        if(players[i] !== undefined && players[i].id === player) { // finds the socket.id from the disconnected player and removes them from the game (visually)
             players[i] = undefined
             numberOfPlayers--
             break
         }
     }
-    console.log("players:", players)
+    //console.log("players:", players)
 })
 
 onMount( () => {
@@ -169,6 +170,12 @@ function shuffleAnswers() {
         optionArray[i] = optionArray.splice(randomIndex, 1, optionArray[i])[0]
     }
 }
+function nextRound() {
+    // save score
+    // save the question we're at
+    // check if question array length is ok
+    // repeat a round
+}
 
 </script>
 
@@ -200,6 +207,7 @@ function shuffleAnswers() {
                 <RoundScore optionAnswer={option}/>
             {/each}
         </div>
+        <button transition:fade on:click={}>Next Round</button>
         {/if}
     </div>
     

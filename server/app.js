@@ -54,13 +54,12 @@ instrument(io,{
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 io.use(wrap(sessionMiddleware))
 
-import connection from './sockets/connection.js'
-import {combineFunctions} from "./sockets/joinRoom.js"
-import {combineFibOrDib} from './sockets/fibOrDibSockets.js'
+import {combineConnectionSockets} from "./sockets/connectionSocket.js"
+import {combineGameSockets} from './sockets/gameSockets.js'
 io.on("connection", (socket) => {
     
-    combineFunctions(socket)
-    combineFibOrDib(socket)
+    combineConnectionSockets(socket)
+    combineGameSockets(socket)
     
 })
 
