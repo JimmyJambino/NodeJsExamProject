@@ -1,18 +1,54 @@
 <script>
+<<<<<<< HEAD
 import { navigate } from "svelte-navigator"
 import {makeOptions} from "../store/util.js"
 //import {savedRoomKey} from "../store/generalStore.js"
 export let socket
+=======
+    import { toast } from "@zerodevx/svelte-toast";
+>>>>>>> jimmy
 
-socket.on("room:hello", (data) => {
-    console.log(data)
-})
+    import { navigate } from "svelte-navigator"
+    import { playerName } from '../store/gameControllerStore'
+    //import {savedRoomKey} from "../store/generalStore.js"
+    export let socket
+
+// socket.on("room:hello", (data) => {
+//     console.log(data)
+// })
     function handleJoinSubmit() {
-        const givenInfo = {roomKey, playerName, score: 0}
-        socket.emit("room:playerJoined", (givenInfo))
-        navigate("player", {})
+        playerName.set(name)
+        
+        if(roomKey.length === 4 && $playerName.length !== 0) {
+            const givenInfo = {roomKey, name: $playerName, score: 0}
+
+            socket.emit("room:playerJoined", (givenInfo))
+            navigate("player", {})
+        } else if(roomKey.length === 4 && $playerName.length === 0){
+            toast.push("Player name can't be empty.", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        } else if(roomKey.length !== 4 && $playerName.length !== 0) {
+            toast.push("Room key must be 4 characters", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        } else {
+            toast.push("Room key must be 4 characters, and the player name can't be empty.", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        }
     }
 
+<<<<<<< HEAD
     async function handleHostSubmit() {
         console.log("HOST SUBMIT YEY");
         const FIBORDIBID = 1
@@ -20,12 +56,30 @@ socket.on("room:hello", (data) => {
         if (response.ok) {
             navigate("room", {replace:true})
         }
+=======
+    function handleHostSubmit() {
+
+        navigate("room", {repalce:true})
+        //TODO:
+        //1.
+        //look up user in req.session and see if a user is present.
+        //if not, REDIRECT TO A NEW LOG IN PAGE YOU COULD MAKE RIGHT NOW LOL
+
+        //2.
+        //if the user is present, make a new component that shows the pages games and which ones the user owns.
+        //games that arent owned should be able to be purchased.
+        //The owned games should be clickable to start a game
+
+        //3
+        //
+        //
+>>>>>>> jimmy
 
         
     }
 
-    let roomKey
-    let playerName
+    let roomKey = ""
+    let name = ""
 </script>
 
 <div id="outmostDiv">
@@ -34,7 +88,7 @@ socket.on("room:hello", (data) => {
     <div id="playerDiv">
         <h3>Join game as a player</h3>
         <input
-            bind:value={playerName}
+            bind:value={name}
             type="text"
             name="playerName"
             placeholder="Enter your player name"
