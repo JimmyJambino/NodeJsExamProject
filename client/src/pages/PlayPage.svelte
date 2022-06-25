@@ -1,5 +1,6 @@
 <script>
 import { navigate } from "svelte-navigator"
+import {makeOptions} from "../store/util.js"
 //import {savedRoomKey} from "../store/generalStore.js"
 export let socket
 
@@ -12,24 +13,15 @@ socket.on("room:hello", (data) => {
         navigate("player", {})
     }
 
-    function handleHostSubmit() {
-        console.log("lolol")
+    async function handleHostSubmit() {
+        console.log("HOST SUBMIT YEY");
+        const FIBORDIBID = 1
+        const response = await fetch("/api/checkGameOwnership", makeOptions("POST", {game_id: FIBORDIBID}))
+        if (response.ok) {
+            navigate("room", {replace:true})
+        }
 
-        navigate("room", {repalce:true})
-        //TODO:
-        //1.
-        //look up user in req.session and see if a user is present.
-        //if not, REDIRECT TO A NEW LOG IN PAGE YOU COULD MAKE RIGHT NOW LOL
-
-        //2.
-        //if the user is present, make a new component that shows the pages games and which ones the user owns.
-        //games that arent owned should be able to be purchased.
-        //The owned games should be clickable to start a game
-
-        //3
-        //
-        //
-
+        
     }
 
     let roomKey

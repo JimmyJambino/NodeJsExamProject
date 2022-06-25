@@ -1,5 +1,5 @@
 <script>
-    import { isLoggedIn, ownedGames} from "../store/generalStore.js"
+    import { isLoggedIn, ownedGames, currentUser} from "../store/generalStore.js"
     import { fetchOneUser, makeOptions } from "../store/util.js"
     import { navigate } from "svelte-navigator"
     import { toast } from "@zerodevx/svelte-toast";
@@ -14,6 +14,7 @@
         if (response.ok){
             const result = await response.json()
             $isLoggedIn = result.isLoggedIn
+            $currentUser = result.user
             const resultGames = result.ownedGames
             //convert objects to be easier to handle
             $ownedGames = resultGames.map( (element) => {
@@ -21,7 +22,6 @@
                     game_id: element.game_id
                 }
             })
-            console.log("isLogged:", $isLoggedIn, "games", $ownedGames);
             navigate("/", { replace: true })
             toast.push("Logged in", {
                 theme: {

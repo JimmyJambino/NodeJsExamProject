@@ -1,12 +1,16 @@
 <script>
 import { useNavigate } from "svelte-navigator";
 
-    import { isLoggedIn } from "../store/generalStore";
+    import { isLoggedIn,ownedGames,currentUser } from "../store/generalStore";
+import { makeOptions } from "../store/util";
     
     const navigate = useNavigate()
 
-    function handleLogOut() {
-        $isLoggedIn = null
+    async function handleLogOut() {
+        $isLoggedIn = false
+        $ownedGames = []
+        $currentUser = null
+        await fetch("/api/logout", makeOptions("POST",{}))
         navigate("/", {replace: true})
     }
 </script>
