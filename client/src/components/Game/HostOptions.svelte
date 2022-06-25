@@ -1,12 +1,13 @@
 <script>
-    export let answers // players + their answers
+    export let choices // players + their answers
     
 </script>
 
-{#each answers as answer}
+{#each choices as choice}
     <div class="answerBlock">
         <p class="answerText">
-           {answer.input} 
+           {choice.input} 
+           test 1 map
         </p>
     </div>
 {/each}
