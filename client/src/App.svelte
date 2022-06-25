@@ -73,7 +73,9 @@
 						</ul>
 					</nav>
 				</div>
+				{#if !$isLoggedIn}
 				<LoginForm/>
+				{/if}
 			</div>
 		{/if}
 
