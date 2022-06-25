@@ -2,11 +2,10 @@
     import { onMount } from "svelte"
     import PlayerOption from "../components/Game/PlayerOption.svelte";
     import {awaitingOptionInput, awaitingTextInput} from '../store/gameControllerStore.js'
-    import { isLoggedIn, playTime } from "../store/generalStore.js"
     export let socket
     $:playerOptions = [] // {player, option}
 
-    let input // textInput from the player
+    let input //
     let playerSocket = socket
     let header = "Waiting for host to start game... " // why doesn't this variable need $? it is still reactive tho?
     
@@ -20,12 +19,13 @@
         startRound()
     })
 
-    socket.on("playerNumber", (data) => {
-        playerNumber = data
-    })
+    // socket.on("playerNumber", (data) => {
+    //     playerNumber = data
+    // })
     socket.on("player:options", (optionArray) => { // consists of players with {owner, input, tally} use socket.id as the player, but tally is not used here.
         playerOptions = optionArray //  Timing needs to be fixed.
         awaitingOptionInput.set(true)
+        awaitingTextInput.set(false)
         header = "Choose an answer!"
     })
 
@@ -35,6 +35,7 @@
             input
         }
         socket.emit("player:inputAnswer", answer)
+        header = "Waiting for others."
         awaitingTextInput.set(false)
     }
 

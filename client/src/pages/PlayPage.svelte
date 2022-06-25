@@ -1,19 +1,47 @@
 <script>
-import { navigate } from "svelte-navigator"
-//import {savedRoomKey} from "../store/generalStore.js"
-export let socket
+    import { toast } from "@zerodevx/svelte-toast";
 
-socket.on("room:hello", (data) => {
-    console.log(data)
-})
+    import { navigate } from "svelte-navigator"
+    import { playerName } from '../store/gameControllerStore'
+    //import {savedRoomKey} from "../store/generalStore.js"
+    export let socket
+
+// socket.on("room:hello", (data) => {
+//     console.log(data)
+// })
     function handleJoinSubmit() {
-        const givenInfo = {roomKey, playerName, score: 0}
-        socket.emit("room:playerJoined", (givenInfo))
-        navigate("player", {})
+        playerName.set(name)
+        
+        if(roomKey.length === 4 && $playerName.length !== 0) {
+            const givenInfo = {roomKey, name: $playerName, score: 0}
+
+            socket.emit("room:playerJoined", (givenInfo))
+            navigate("player", {})
+        } else if(roomKey.length === 4 && $playerName.length === 0){
+            toast.push("Player name can't be empty.", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        } else if(roomKey.length !== 4 && $playerName.length !== 0) {
+            toast.push("Room key must be 4 characters", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        } else {
+            toast.push("Room key must be 4 characters, and the player name can't be empty.", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        }
     }
 
     function handleHostSubmit() {
-        console.log("lolol")
 
         navigate("room", {repalce:true})
         //TODO:
@@ -32,8 +60,8 @@ socket.on("room:hello", (data) => {
 
     }
 
-    let roomKey
-    let playerName
+    let roomKey = ""
+    let name = ""
 </script>
 
 <div id="outmostDiv">
@@ -42,7 +70,7 @@ socket.on("room:hello", (data) => {
     <div id="playerDiv">
         <h3>Join game as a player</h3>
         <input
-            bind:value={playerName}
+            bind:value={name}
             type="text"
             name="playerName"
             placeholder="Enter your player name"

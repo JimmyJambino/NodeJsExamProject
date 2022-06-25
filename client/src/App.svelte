@@ -24,7 +24,6 @@
 	import DisplayGame from "./pages/DisplayGame.svelte";
 	import CartOverview from "./pages/CartOverview.svelte";
 	import PlayerPage from "./pages/PlayerPage.svelte";
-	import HostFibOrDibPage from "./pages/HostFibOrDibPage.svelte";
 	import PaymentPage from "./pages/PaymentPage.svelte";
 	import ThankYouPage from "./pages/ThankYouPage.svelte";
 	import PaymentFailed from "./pages/PaymentFailed.svelte";
@@ -134,9 +133,6 @@
 		</Route>
 		<Route path="player">
 			<PlayerPage {socket} />
-		</Route>
-		<Route path="FibOrDib">
-			<HostFibOrDibPage {socket} />
 		</Route>
 		<Route path="test">
 			<TestPage />

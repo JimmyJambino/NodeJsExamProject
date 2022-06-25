@@ -14,7 +14,7 @@ export function combineFunctions(socket) {
 export function playerJoin(socket) {
     socket.on("room:playerJoined", (data) => {
         const player = {
-            name: data.playerName,
+            name: data.name,
             id: socket.id,
             score: 0
         }

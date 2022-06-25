@@ -1,6 +1,5 @@
 <script>
 export let optionAnswer
-//export let playerName
 </script>
 
 <div class="optionAnswer">
@@ -18,14 +17,18 @@ export let optionAnswer
 .optionAnswer {
     font-size: 20px;
     color: white;
-    border-width: 3px;
-    border-color: black;
+    border-color: rgb(144, 128, 78);
     border-style: solid;
+    border-radius: 0.5em;
+    box-shadow: 3px 5px 25px rgb(120 120 120);
+    min-width: 18vw;
+    background-color: rgb(194, 178, 128, 0.8);
 }
 .option {
-    border-width: 3px;
-    border-color: black;
+    border-color: rgb(194, 178, 128);
     border-style: solid;
+    border-radius: 0.5em;
     padding: 5px;
+    margin: 5px;
 }
 </style>
