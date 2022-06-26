@@ -4,7 +4,9 @@ import { readQuestions, readRandomQuestions } from "../database/mongoDB/crudFunc
 const router = Router()
 
 router.get("/questions", async (req, res) => {
-    res.send(await readQuestions())
+    if (req.session.isLoggedIn){
+        res.send(await readQuestions())
+    }
 })
 
 //you can specify how many questions you want as a request parameter

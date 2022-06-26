@@ -19,11 +19,12 @@
         return together
     }
 
+
 </script>
 
 
 {#each header as head}
-    {#if head != "id"}
+    {#if head != "id" && head != "type"}
     <th on:click={sortTableByHeader} id={head}>{capitalizeFirstLetter(head.toString())}</th>
     {/if}
 {/each}

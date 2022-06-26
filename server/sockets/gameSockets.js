@@ -1,9 +1,9 @@
 import { getRoomBySocketId } from "./socketUtils.js"
-import { rooms } from './joinRoom.js'
+import { rooms } from './connectionSocket.js'
 
 // Rename this file to gameController.
 // This script should include the general functions for inputs, options etc that a player/client can send to the host and vice versa
-export function combineFibOrDib(socket) {
+export function combineGameSockets(socket) {
     inputAnswer(socket)
     optionArray(socket)
     optionsAnswer(socket)

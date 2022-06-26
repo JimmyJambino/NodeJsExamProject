@@ -78,24 +78,12 @@ function findMerch(id) {
         padding-bottom: 1em;
         
     }
-    .smallImg{
-        width: 30%;
-        height: 6em;
-        object-fit: cover;
-    }
     img {
         width: 100%;
         height: 13em;
         object-fit: cover;
     }
-    #scroll {
-
-        height: 7em;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        padding: 0;
-        white-space: nowrap;
-    }
+    
     #rightDescriptionBox{ 
         width: 30%;
         display: flex;
@@ -151,47 +139,5 @@ function findMerch(id) {
     transform: scale(1.05) rotate(-1deg);
     }
 
-/* CSS */
-.button-13 {
-  background-color: #fff;
-  border: 1px solid #d5d9d9;
-  border-radius: 8px;
-  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
-  box-sizing: border-box;
-  color: #0f1111;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "Amazon Ember",sans-serif;
-  font-size: 13px;
-  line-height: 29px;
-  padding: 0;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: middle;
-  width: 100px;
-}
-
-.button-13:hover {
-  background-color: #f7fafa;
-}
-
-.button-13:focus {
-  border-color: #008296;
-  box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
-  outline: 0;
-}
-
-    #rightBox {
-        background-color: darkkhaki;
-        width: 30%;
-        height: 100%;
-        display: flex;
-        float:right;
-
-    }
 
 </style>

@@ -207,7 +207,7 @@ function nextRound() {
                 <RoundScore optionAnswer={option}/>
             {/each}
         </div>
-        <button transition:fade on:click={}>Next Round</button>
+        <button transition:fade >Next Round</button>
         {/if}
     </div>
     

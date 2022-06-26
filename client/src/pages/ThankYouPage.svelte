@@ -10,9 +10,11 @@ onMount( () => {
 </script>
 
 <div>
-    <h3>Thanks for giving us your money</h3>
+    <h3>Thanks for buying our stuff :)</h3>
 </div>
 
 <style>
-
+ h3 {
+    color:whitesmoke;
+ }
 </style>

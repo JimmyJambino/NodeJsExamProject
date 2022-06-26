@@ -1,21 +1,10 @@
 <script>
-<<<<<<< HEAD
-import { navigate } from "svelte-navigator"
-import {makeOptions} from "../store/util.js"
-//import {savedRoomKey} from "../store/generalStore.js"
-export let socket
-=======
-    import { toast } from "@zerodevx/svelte-toast";
->>>>>>> jimmy
-
     import { navigate } from "svelte-navigator"
+    import {makeOptions} from "../store/util.js"
+    import { toast } from "@zerodevx/svelte-toast";
     import { playerName } from '../store/gameControllerStore'
-    //import {savedRoomKey} from "../store/generalStore.js"
     export let socket
 
-// socket.on("room:hello", (data) => {
-//     console.log(data)
-// })
     function handleJoinSubmit() {
         playerName.set(name)
         
@@ -48,7 +37,6 @@ export let socket
         }
     }
 
-<<<<<<< HEAD
     async function handleHostSubmit() {
         console.log("HOST SUBMIT YEY");
         const FIBORDIBID = 1
@@ -56,24 +44,6 @@ export let socket
         if (response.ok) {
             navigate("room", {replace:true})
         }
-=======
-    function handleHostSubmit() {
-
-        navigate("room", {repalce:true})
-        //TODO:
-        //1.
-        //look up user in req.session and see if a user is present.
-        //if not, REDIRECT TO A NEW LOG IN PAGE YOU COULD MAKE RIGHT NOW LOL
-
-        //2.
-        //if the user is present, make a new component that shows the pages games and which ones the user owns.
-        //games that arent owned should be able to be purchased.
-        //The owned games should be clickable to start a game
-
-        //3
-        //
-        //
->>>>>>> jimmy
 
         
     }

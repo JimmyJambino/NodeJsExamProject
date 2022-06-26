@@ -90,13 +90,13 @@ router.post("/login", async (req, res) => {
         const loginDetails = req.body
     
         //check if email and password was sent to the server
-
         if (!loginDetails.email || !loginDetails.password){
             throw new Error("missing email or password", {cause: "missingDetails"})
         }
         
         const accountFromDatabase = await readAccountByEmail(loginDetails.email)
        
+        //does account exist?
         if (!accountFromDatabase){
             throw new Error("no user with that email", {cause: "incorrectEmail"})
         }

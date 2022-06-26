@@ -4,17 +4,16 @@
     import {fade} from "svelte/transition"
 
     function handleDelete(title) {
-        items = items.filter(game => game.title != title)
+        items = items.filter(item => item.title != title)
         $cartList = items
     }
 
-console.log(items);
 </script>
 
 {#each items as item}
     <tr>
     {#each Object.keys(item) as key}  <!-- Object.keys(item) returns an array of all the keys in the object-->
-    {#if key != "id"}
+    {#if key != "id" && key != "type"}
         {#if key.toString() == "product"} <!-- picture key-->
             <td> <img src='{item[key]}' alt='Avatar of item' /> </td>
         {:else}

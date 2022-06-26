@@ -8,8 +8,8 @@ const stripe = new Stripe("sk_test_51LBLn5K0jUy4lmxib219v8MRg12NZHUblwlEj7H1deNq
 const paymentRouter = Router()
 
 paymentRouter.post("/paymentTest", async (req, res) => {
-  const data = await post()
   if (req.session.isLoggedIn) {
+    const data = await post()
     res.send(data)
   } else {
     res.status(403).send({ errMsg: "Not logged in", cause: "notLoggedIn" })
@@ -37,10 +37,9 @@ export async function post() {
 }
 
 paymentRouter.post("/linkGames", async (req, res) => {
-  const gameIds = req.body.gameIds
-
-  gameIds.forEach(gameId => {
-    createAccountsGames(req.session.accountId, gameId)
+  const games = req.body.games
+  games.forEach(game => {
+    createAccountsGames(req.session.accountId, game.id)
   })
 })
 

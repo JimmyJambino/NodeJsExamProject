@@ -26,7 +26,7 @@ function handleInspect(id) {
     }
 
 function addToCart(item) {
-    const alteredItem = {product: item.imgSrc, title: item.title,  price: item.price}
+    const alteredItem = {id: item.id, product: item.imgSrc, title: item.title,  price: item.price, type: item.type}
     const cart = $cartList 
     $cartList = [...cart, alteredItem];
 

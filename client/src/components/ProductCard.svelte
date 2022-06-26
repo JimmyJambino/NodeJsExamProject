@@ -12,21 +12,21 @@
     const dispatch = createEventDispatcher();
 
     function checkIfInCartOrOwned(cart,ownedGames) {
-        let boolean = false;
+        let isBuyable = false;
         //checks the cart for items
         cart.forEach(element => {
             if (element.title == productInfo.title && productInfo.type == undefined ){
-                boolean = true
+                isBuyable = true
             }
         });
         //checks if the account already owns the GAME
         ownedGames.forEach(element => {
             if (element.game_id === productInfo.id && productInfo.type != "clothing" ) {
-                boolean = true
+                isBuyable = true
             }
         })
 
-        return boolean
+        return isBuyable
     }
 
     $: check = checkIfInCartOrOwned($cartList,$ownedGames)

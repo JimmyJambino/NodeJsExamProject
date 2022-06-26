@@ -45,8 +45,7 @@ import { makeOptions } from '../store/util';
         elements,
         redirect: 'if_required'
       })
-    // log results, for debugging
-    console.log("result:",{result})
+
     if (result.error) {
       // payment failed, notify user
       error = result.error
@@ -55,24 +54,24 @@ import { makeOptions } from '../store/util';
     } else {
       // payment succeeded, redirect to "thank you" page
       // find the games that were bought and add them to the accounts games table
-      const gameIds = $cartList.map(item => {
-        if (!item.type){
+      const games = $cartList.filter(item => {
+        if (item.type != "clothing"){
           return item.id
-        }
+        } 
       })
 
-      if (gameIds){
-        fetch("/api/linkGames", makeOptions("POST", {gameIds}))
+      if (games){
+        fetch("/api/linkGames", makeOptions("POST", {games:games}))
       }
 
       $cartList = []
-      $ownedGames = [...$ownedGames, ...gameIds.map((gameId) => {
+      $ownedGames = [...$ownedGames, ...games.map((game) => {
                 return {
-                    game_id: gameId
+                    game_id: game.id
                 }
             })]
 
-      console.log($ownedGames)
+
       navigate("thankYouPage")
     }
   }

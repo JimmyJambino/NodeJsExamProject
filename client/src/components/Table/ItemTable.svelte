@@ -7,7 +7,6 @@
     let latestSort = '' ;
     function sort(event){
         const target = event.detail.header;
-        //console.log(typeof(target)) // it's a string, use it?
         if(target !== latestSort){ // remember hard equality so Anders wont hit you
             latestSort = target;
             items = items.sort(function(a,b){
