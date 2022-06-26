@@ -1,6 +1,6 @@
 <script>
 // Rename to Hostpage? Makes more sense as the game actually runs here on the host, and it isn't *just* a room.
-import {onMount} from "svelte"
+import {onDestroy, onMount} from "svelte"
 import PlayerConnection from "../components/Game/PlayerConnection.svelte";
 import { awaitingOptionInput, awaitingTextInput } from "../store/gameControllerStore";
 import RoundScore from "../components/Game/RoundScore.svelte";
@@ -16,7 +16,11 @@ let body
 let top = ""
 let roomKey
 
-let gameRunning = false
+let roundRunning = false
+
+onDestroy(() => {
+    gameMusic.pause()
+})
 
 // ##############################################################
 // ################ SOCKETS FOR CONNECTIONS #####################
@@ -59,7 +63,7 @@ let countDownInterval // Interval
 
 function controlInterval() {
     if(countDown <= 0) {
-        stopCountDown()
+        clearInterval(countDownInterval)
         awaitingOptionInput.set(false)
         awaitingTextInput.set(false)
     } else {
@@ -68,12 +72,9 @@ function controlInterval() {
 }
 
 function startCountDownInSeconds(fn, seconds) {
+    clearInterval(countDownInterval)
     countDown = seconds
     return setInterval(fn, 1000)
-}
-
-function stopCountDown() {
-    clearInterval(countDownInterval)
 }
 
 async function startGame() {
@@ -83,21 +84,21 @@ async function startGame() {
     gameMusic.play() 
     socket.emit("room:startGame", {roomKey}) // maybe include actual game so the players know what they're playing? Need to also change the {} in backend.
     top = "Game is starting..."
-    gameRunning = true
+    roundRunning = true
     const array = await fetch("/api/randomQuestions/5")
     hostPrompts = await array.json()
     setTimeout(() => {
         top = "You are about to play Fib Or Dib!"
-    }, 2000)
+    }, 5000)
 
     setTimeout(() => {
         top = hostPrompts[0].question
         body = "Please submit your answers!"
         socket.emit("room:startRound", {roomKey}) // emits signal to start a round to the players, awaits inputs
         awaitingTextInput.set(true)
-        countDownInterval = startCountDownInSeconds(controlInterval, 10)
+        countDownInterval = startCountDownInSeconds(controlInterval, 20)
         startRound()
-    }, 5000) 
+    }, 10000) 
 } // At the end of this function, call another socket emit to let the host and players know? Or just emit to players?
 
 function startRound() {
@@ -110,17 +111,18 @@ function startRound() {
         shuffleAnswers() // shuffles the answers so that players can't tell which one is correct based on order.
         socket.emit("room:optionArray", optionArray) // sends the option array to the players
         awaitingOptionInput.set(true)
-        countDownInterval = startCountDownInSeconds(controlInterval, 5)
+        countDownInterval = startCountDownInSeconds(controlInterval, 10)
         showResults()
-    }, 10000) // 10 seconds
+    }, 20000) // 20 seconds
 }
 
 function showResults() { 
     setTimeout(() => {
         console.log("End of round, scores are being displayed.")
-        countDownInterval = startCountDownInSeconds(controlInterval, 5)
+        //countDownInterval = startCountDownInSeconds(controlInterval, 5)
         showingResults = true // just shows the submitted answers, doesn't wait for emit or signal.
-    }, 5000) // 5 seconds after users have had the chance to submit choices
+        roundRunning = false
+    }, 10000) // 10 seconds after users have had the chance to submit choices
 }
 
 // ##############################################################
@@ -181,7 +183,7 @@ function shuffleAnswers() {
             {/key}
         {/if}
             
-        {#if countDown >= 0 && ($awaitingOptionInput || $awaitingTextInput)}
+        {#if countDown > 0 && ($awaitingOptionInput || $awaitingTextInput)}
         <br>
             <p transition:fade>Countdown: {countDown}</p>
         {/if}
@@ -192,14 +194,14 @@ function shuffleAnswers() {
                 <RoundScore optionAnswer={option}/>
             {/each}
         </div>
-        <button transition:fade on:click={startGame}>Start a new round</button>
+        <!-- <button transition:fade on:click={startGame}>Start a new round</button> -->
         {/if}
     </div>
     
     <div class="bottom">
-        {#if numberOfPlayers >= 2 && !gameRunning}
-               <button on:click|preventDefault={startGame}>Start Game</button>
-        {:else if !gameRunning}
+        {#if numberOfPlayers >= 2 && !roundRunning}
+               <button on:click|preventDefault={startGame}>Start a round!</button>
+        {:else if !roundRunning && numberOfPlayers < 2}
             Waiting for players...
         {/if}
         <div class="connectionList">

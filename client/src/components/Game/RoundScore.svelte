@@ -2,7 +2,7 @@
 export let optionAnswer
 </script>
 
-<div class="optionAnswer">
+<div class="optionAnswer" style:background-color={optionAnswer.name === "Truth" ? "rgb(50, 215, 50, 0.8)" : "rgb(194, 178, 128, 0.8)"}>
     <p>{optionAnswer.name}</p>
     <p>{optionAnswer.input}</p>
     <p>Who guessed: </p>

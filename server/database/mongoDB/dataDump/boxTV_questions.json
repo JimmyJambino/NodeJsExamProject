@@ -1,78 +1,78 @@
 [
 	{
-		"question": "What is the name of Gagamels cat?",
+		"question": "In 2003, Morocco made the highly unusual offer to send 2,000 _____ to assist the United States' war efforts in Iraq.?",
 		"options": [
-			"Gilgamesh",
-			"Godzilla",
-			"Michael"
+			"Girl scouts",
+			"Trained chefs",
+			"Diapers"
 		],
-		"answer": "Azrael"
+		"answer": "Monkeys"
 	},
 	{
-		"question": "Which haircolor does Tintin have?",
+		"question": "While president of the United States, John Adams had a dog named Juno and a dog named _____.?",
 		"options": [
-			"White",
-			"Black",
-			"Blonde"
+			"Bruno",
+			"Jesus",
+			"Santa"
 		],
-		"answer": "Ginger red"
+		"answer": "Satan"
 	},
 	{
-		"question": "When receiving the letter of entry to Hogwarts how old is one?",
+		"question": "The inventor of the laxative Ex-Lax has the unusual name Max _____.?",
 		"options": [
-			"8",
-			"10",
-			"14"
+			"Size",
+			"Power",
+			"Lad"
 		],
-		"answer": "11"
+		"answer": "Kiss"
 	},
 	{
-		"question": "What are the names of the three Totally Spies?",
+		"question": "Ben and Jerry only started making ice cream because it was too expensive to make _____.?",
 		"options": [
-			"Max, Charlie and Sara",
-			"Darcy, Trinity and Lucy",
-			"Chelsea, Felicity and Alice"
+			"Airplanes",
+			"Condoms",
+			"Cheesecake"
 		],
-		"answer": "Sam, Clover and Alex"
+		"answer": "Bagels"
 	},
 	{
-		"question": "What is the name of the stones in Thanos' gauntlet?",
-		"options": [
-			"placeholder1",
-			"placeholder2",
-			"placeholder3"
-		],
-		"answer": "Infinity Stones"
-	},
-	{
-		"question": "What is the name of the Island in which Jurassic Park takes place?",
+		"question": "Huggies Brazil developed a phone app that tells you when a baby's diaper is wet. It's called _____.?",
 		"options": [
 			"placeholder1",
 			"placeholder2",
 			"placeholder3"
 		],
-		"answer": "Isla Nublar"
+		"answer": "Tweetpee"
 	},
 	{
-		"question": "How do Harry and Ron get to Hogwarts in their second year?",
+		"question": "In 1976 boxing legend Muhammad Ali released an education children's album titled 'Ali and His Gang Vs. Mr. _____.'?",
 		"options": [
 			"placeholder1",
 			"placeholder2",
 			"placeholder3"
 		],
-		"answer": "By Ron's father's flying car"
+		"answer": "Tooth Decay"
 	},
 	{
-		"question": "Who invented the word \"vomit\"?",
+		"question": "During a famous fire in 1567, a Norwegian man named Hans Steininger died after tripping over a _____.?",
 		"options": [
 			"placeholder1",
 			"placeholder2",
 			"placeholder3"
 		],
-		"answer": "William Shakespeare"
+		"answer": "Beard"
 	},
 	{
-		"question": "What is the name of the Language spoken in The Sims?",
+		"question": "The sound of E.T. walking was made by someone squishing _____.?",
+		"options": [
+			"placeholder1",
+			"placeholder2",
+			"placeholder3"
+		],
+		"answer": "Jell-o"
+	},
+	{
+		"question": "In the video game, The Sims, they speak _____.",
 		"options": [
 			"placeholder1",
 			"placeholder2",
@@ -81,30 +81,30 @@
 		"answer": "Simlish"
 	},
 	{
-		"question": "What is the most watched youtube video?",
+		"question": "Marcella Hazan is the culinary guru who pioneered the unusual technique of cooking duck with a _____.?",
 		"options": [
 			"placeholder1",
 			"placeholder2",
 			"placeholder3"
 		],
-		"answer": "Baby Shark"
+		"answer": "Hair dryer"
 	},
 	{
-		"question": "What is the title of Titanic's theme song?",
+		"question": "A woman in Muncie, Indiana was hospitalized after trying to remove a callus on her foot with a _____.?",
 		"options": [
 			"placeholder1",
 			"placeholder2",
 			"placeholder3"
 		],
-		"answer": "My Heart will go on"
+		"answer": "Shotgun"
 	},
 	{
-		"question": "How many pokemons are there in the first generation?",
+		"question": "A study published in the journal Anthrozoo reported that cows produce 5% more milk when they are given _____.?",
 		"options": [
 			"150",
 			"201",
 			"200"
 		],
-		"answer": "151"
+		"answer": "Names"
 	}
 ]
