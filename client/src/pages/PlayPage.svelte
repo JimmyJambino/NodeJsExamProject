@@ -4,14 +4,33 @@
     import { toast } from "@zerodevx/svelte-toast";
     import { playerName } from '../store/gameControllerStore'
     export let socket
+    let roomKey = ""
+    let name = ""
+    
+    function checkRoomValidation(){
+        socket.emit("player:roomValidation", roomKey)
+    }
+
+    socket.on("player:roomValidation", validRoom => {
+        if(validRoom) {
+            handleJoinSubmit()
+        } else {
+            toast.push("Invalid Room Key", {
+                theme: {
+                  '--toastBackground': '#F56565',
+                  '--toastBarBackground': '#C53030'
+                }
+            })
+        }        
+    })
 
     function handleJoinSubmit() {
         playerName.set(name)
-        
+
         if(roomKey.length === 4 && $playerName.length !== 0) {
             const givenInfo = {roomKey, name: $playerName, score: 0}
 
-            socket.emit("room:playerJoined", (givenInfo))
+            socket.emit("player:playerJoined", (givenInfo))
             navigate("player", {})
         } else if(roomKey.length === 4 && $playerName.length === 0){
             toast.push("Player name can't be empty.", {
@@ -48,8 +67,6 @@
         
     }
 
-    let roomKey = ""
-    let name = ""
 </script>
 
 <div id="outmostDiv">
@@ -69,7 +86,7 @@
             name="roomKey"
             placeholder="Enter room key"
         />
-        <button id="enterRoom" class="button-71" on:click|preventDefault={handleJoinSubmit}>Enter room</button>
+        <button id="enterRoom" class="button-71" on:click|preventDefault={checkRoomValidation}>Enter room</button>
     </div>
 
     <!--Divider-->

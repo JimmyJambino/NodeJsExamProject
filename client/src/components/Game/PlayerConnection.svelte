@@ -10,7 +10,7 @@
 {:else}
 <div class="connection">
     Open
-    <img class="connection" src="images/redCircle.png" alt="player connection">
+    <img class="connection" src="images/greyCircle.png" alt="player connection">
 </div>
 {/if}
 

@@ -13,9 +13,7 @@ const router = Router()
 //used to check if user is eligible to HOST a game
 router.post("/checkGameOwnership", async (req,res) => {
     const providedDetails = req.body //{game_id: 1}
-    console.log("owned games:",req.session.ownedGames);
     if (req.session.isLoggedIn && req.session.ownedGames.includes(providedDetails.game_id)) {
-        console.log("VI ER VALID, account router");
         res.status(200).send({validOwnership: true})
     } else {
         res.status(400).send({validOwnership: false})

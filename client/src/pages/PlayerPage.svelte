@@ -11,18 +11,17 @@
     
     socket.on("room:gameStarting", () => {
         console.log("Game Starting!")
+        awaitingOptionInput.set(false)
+        awaitingTextInput.set(false)
         startingGame()
     }) 
 
-    socket.on("player:startedRound", () => {
+    socket.on("room:startedRound", () => {
         console.log("Round Started!")
         startRound()
     })
 
-    // socket.on("playerNumber", (data) => {
-    //     playerNumber = data
-    // })
-    socket.on("player:options", (optionArray) => { // consists of players with {owner, input, tally} use socket.id as the player, but tally is not used here.
+    socket.on("room:options", (optionArray) => { // consists of players with {owner, input, tally} use socket.id as the player, but tally is not used here.
         playerOptions = optionArray //  Timing needs to be fixed.
         awaitingOptionInput.set(true)
         awaitingTextInput.set(false)
@@ -35,6 +34,7 @@
             input
         }
         socket.emit("player:inputAnswer", answer)
+        input = ""
         header = "Waiting for others."
         awaitingTextInput.set(false)
     }
@@ -47,13 +47,6 @@
         header = "Type in your lie!" // Or if you can't make one up, choose lie for me!
         awaitingTextInput.set(true)
     }
-    
-    onMount( () => {
-        //playTime.set(true)
-        // player = {
-        //     playerId: socket.id, 
-        // }
-    })
     
 </script>
 <div class="content">

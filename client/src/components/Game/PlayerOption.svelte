@@ -1,7 +1,7 @@
 <script>
     import {awaitingOptionInput} from '../../store/gameControllerStore.js'
 
-    // Should be a check that the players own lie isn't an option
+    
     export let playerOption // input from a player which is an option, and the socketid that submitted it
     export let playerSocket // the socket from the player that chooses the option
     

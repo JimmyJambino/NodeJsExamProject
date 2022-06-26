@@ -5,7 +5,6 @@ import PlayerConnection from "../components/Game/PlayerConnection.svelte";
 import { awaitingOptionInput, awaitingTextInput } from "../store/gameControllerStore";
 import RoundScore from "../components/Game/RoundScore.svelte";
 import {fade, fly} from 'svelte/transition'
-import { transition_in } from "svelte/internal";
 export let socket
 let gameMusic = new Audio('audio/themesong.mp3') // mySound.loop = true, to loop
 gameMusic.volume = 0.2;
@@ -17,12 +16,12 @@ let body
 let top = ""
 let roomKey
 
-let gameRunning = false // to Store
+let gameRunning = false
 
 // ##############################################################
 // ################ SOCKETS FOR CONNECTIONS #####################
 // ##############################################################
-socket.on("room:playerHasJoined", player => {
+socket.on("player:playerHasJoined", player => {
     console.log("player:", player)
     for(let i = 0; i < players.length; i++) {
         if(players[i] == undefined) {
@@ -33,9 +32,7 @@ socket.on("room:playerHasJoined", player => {
     }
 }) 
 
-// ###### NEED AN OPTION TO BOOT ALL PLAYERS
-socket.on("room:disconnectedPlayer", (player) => {
-    //console.log("Disconnected player:", player)
+socket.on("player:disconnectedPlayer", (player) => {
     for(let i = 0; i < players.length; i++) {
         if(players[i] !== undefined && players[i].id === player) { // finds the socket.id from the disconnected player and removes them from the game (visually)
             players[i] = undefined
@@ -43,14 +40,12 @@ socket.on("room:disconnectedPlayer", (player) => {
             break
         }
     }
-    //console.log("players:", players)
 })
 
 onMount( () => {
     socket.emit("room:hostJoined")
-    socket.on("room:displayRoomCode", (data) => {
+    socket.on("room:displayRoomCode", (data) => { // special socket case
         roomKey = data.roomKey // roomKey
-        console.log("Roomkey:", roomKey)
     })
 })
 // ##############################################################
@@ -82,10 +77,13 @@ function stopCountDown() {
 }
 
 async function startGame() {
-    gameMusic.play() // stop at some time
+    body = ""
+    showingResults = false
+    optionArray = []
+    gameMusic.play() 
     socket.emit("room:startGame", {roomKey}) // maybe include actual game so the players know what they're playing? Need to also change the {} in backend.
     top = "Game is starting..."
-    gameRunning = true // set this to false somewhere else?
+    gameRunning = true
     const array = await fetch("/api/randomQuestions/5")
     hostPrompts = await array.json()
     setTimeout(() => {
@@ -111,6 +109,7 @@ function startRound() {
         optionArray.push(correctOption)
         shuffleAnswers() // shuffles the answers so that players can't tell which one is correct based on order.
         socket.emit("room:optionArray", optionArray) // sends the option array to the players
+        awaitingOptionInput.set(true)
         countDownInterval = startCountDownInSeconds(controlInterval, 5)
         showResults()
     }, 10000) // 10 seconds
@@ -121,19 +120,17 @@ function showResults() {
         console.log("End of round, scores are being displayed.")
         countDownInterval = startCountDownInSeconds(controlInterval, 5)
         showingResults = true // just shows the submitted answers, doesn't wait for emit or signal.
-        // emit signal to players to remove their options
     }, 5000) // 5 seconds after users have had the chance to submit choices
-    // Should there be a small break in between phases?
 }
 
 // ##############################################################
 // ############# SOCKETS FOR INPUTS FROM PLAYERS ################
 // ##############################################################
-socket.on("room:inputAnswer", (answer) => { // data = {input, socketId}
-    let playerName // can this be written better?
+socket.on("player:inputAnswer", (answer) => { // data = {input, socketId}
+    let playerName 
     players.forEach((player) => {
-        if(player !== undefined && (player.id === answer.owner)) { // double check?
-            playerName = player.name // undefined right now??
+        if(player !== undefined && (player.id === answer.owner)) { // 
+            playerName = player.name 
         }
     })
 
@@ -146,35 +143,23 @@ socket.on("room:inputAnswer", (answer) => { // data = {input, socketId}
     optionArray.push(option)
 })
 
-socket.on("room:optionAnswer", (optionAnswer) => { // rename socket to reflect action, player --> room --> host?
-    const search = (target) => {
-        console.log("target", target)
-        console.log("optionAnswer:", optionAnswer)
-        return target.id === optionAnswer.player
-    }
+socket.on("player:optionAnswer", (optionAnswer) => { // rename socket to reflect action, player --> room --> host?
 
-    let index = players.findIndex(search)
+    const name = players.find((player) => player.id === optionAnswer.player).name
 
     optionArray.forEach((opt) => {
         if(opt.owner === optionAnswer.owner) { // finding the relevant option owner
-            opt.tally.push(players[index].name)
+            opt.tally.push(name)
             return
         }
     })
 })
 
-//TODO: EXPLAIN THIS TO THE GUYS
 function shuffleAnswers() {
     for(let i=0; i < optionArray.length; i++) {
         const randomIndex = Math.floor(Math.random() * optionArray.length)
         optionArray[i] = optionArray.splice(randomIndex, 1, optionArray[i])[0]
     }
-}
-function nextRound() {
-    // save score
-    // save the question we're at
-    // check if question array length is ok
-    // repeat a round
 }
 
 </script>
@@ -207,7 +192,7 @@ function nextRound() {
                 <RoundScore optionAnswer={option}/>
             {/each}
         </div>
-        <button transition:fade >Next Round</button>
+        <button transition:fade on:click={startGame}>Start a new round</button>
         {/if}
     </div>
     
