@@ -11,14 +11,14 @@ const ROUNDS = 12
 const router = Router()
 
 //used to check if user is eligible to HOST a game
-router.post("/checkGameOwnership", async (req,res) => {
+router.post("/checkGameOwnership", (req,res) => {
     const providedDetails = req.body //{game_id: 1}
+
     if (req.session.isLoggedIn && req.session.ownedGames.includes(providedDetails.game_id)) {
         res.status(200).send({validOwnership: true})
     } else {
         res.status(400).send({validOwnership: false})
     }
-    
 
 })
 
@@ -44,15 +44,6 @@ router.post("/register", async (req, res) => {
         if(!emailValidationRegex.test(providedDetails.email)){
             throw new Error("invalid email", {cause: "invalidEmail"})
         }
-    
-
-        //TODO: this should work but the regex is hard to explain, remember to comment/uncomment the related part in catch
-        // const passwordValidationRegex =
-        // new RegExp(/^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{8,16}$/)
-    
-        // if(!passwordValidationRegex.test(providedDetails.password)){
-        //     throw new Error("invalid password", {cause: "invalidPassword"})
-        // }
         
     
         createAccount(providedDetails)
@@ -67,9 +58,6 @@ router.post("/register", async (req, res) => {
             case "invalidEmail":
                 res.status(400).send({errMsg: "Email is invalid", cause: "invalidEmail"})
                 break;
-            // case "invalidPassword":
-            //     res.status(400).send({errMsg: "password is invalid", cause: "invalidPassword"})
-            //     break;
             case "missingDetails":
                 res.status(400).send({errMsg: "Missing details", cause: "missingDetails"})
                 break;
@@ -109,7 +97,7 @@ router.post("/login", async (req, res) => {
             req.session.isLoggedIn = true
             req.session.accountId = accountFromDatabase.id
             req.session.ownedGames = alteredListOfGames
-            res.send({isLoggedIn: true, ownedGames: listOfOwnedGames, user: {email:accountFromDatabase.email} })
+            res.send({isLoggedIn: true, ownedGames: listOfOwnedGames, user: {email: accountFromDatabase.email} })
         } else {
             throw new Error("Incorrect password", {cause : "incorrectPassword"})
         }

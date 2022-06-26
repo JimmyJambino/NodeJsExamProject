@@ -1,24 +1,30 @@
 import {Router} from "express"
-import { readAllGamesByAccountId, createAccountsGames, deleteAccountGamesByIds } from "../database/sqliteDB/crudFunctions/crudAccountsGames.js"
+import { deleteAccountGamesByIds } from "../database/sqliteDB/crudFunctions/crudAccountsGames.js"
 
-const customerGamesRouter = Router()
+const router = Router()
 
-customerGamesRouter.get("/customerGames/:id", async (req, res) => {
-    const customerId = req.params.id
-    res.send(await readAllGamesByAccountId(customerId))
+//used to check if user is eligible to HOST a game
+router.post("/checkGameOwnership", (req,res) => {
+    const providedDetails = req.body //{game_id: 1}
+
+    if (req.session.isLoggedIn && req.session.ownedGames.includes(providedDetails.game_id)) {
+        res.status(200).send({validOwnership: true})
+    } else {
+        res.status(400).send({validOwnership: false})
+    }
+
 })
 
-customerGamesRouter.post("/customerGames", (req, res) => {
-    const customerId = req.body.customerId
-    const gameId = req.body.gameId
-    createAccountsGames(customerId, gameId)
-    res.send({})
+
+router.delete("/accountsGames", (req, res) => {
+    if (req.session.isLoggedIn){
+        const customerId = req.body.customerId
+        const gameId = req.body.gameId
+        deleteAccountGamesByIds(customerId, gameId)
+        res.send({})
+    } else {
+        res.status(400).send()
+    }
 })
 
-customerGamesRouter.delete("/customerGames", (req, res) => {
-    const customerId = req.body.customerId
-    const gameId = req.body.gameId
-    deleteAccountGamesByIds(customerId, gameId)
-})
-
-export default customerGamesRouter
+export default router

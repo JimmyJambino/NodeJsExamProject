@@ -7,7 +7,7 @@
 
 	function sortTableByHeader(event) {
         const target = event.target.id
-		dispatch('myOwnEvent', {
+		dispatch('sort', {
 			header: target
 		});
 	}

@@ -22,7 +22,7 @@
 
 <table>    
     <tr>
-    <TableHead header={headers} on:myOwnEvent={sort} /> 
+    <TableHead header={headers} on:sort={sort} /> 
     </tr>
     <TableRow items={items} />
 </table>

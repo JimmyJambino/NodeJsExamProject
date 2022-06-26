@@ -40,7 +40,9 @@ paymentRouter.post("/linkGames", async (req, res) => {
   const games = req.body.games
   games.forEach(game => {
     createAccountsGames(req.session.accountId, game.id)
+    req.session.ownedGames = [...req.session.ownedGames, game.id]
   })
+  res.send({}) // needs this to update the session
 })
 
 export default paymentRouter

@@ -14,5 +14,7 @@ onMount( () => {
 </div>
 
 <style>
-
+h3 {
+    color:whitesmoke;
+ }
 </style>

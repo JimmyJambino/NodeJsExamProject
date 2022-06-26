@@ -100,7 +100,7 @@
     </div>
     </div>
 </div>
-<!-- <button class="button-13" role="button" on:click="{() => navigate(-1)}">Back to games page</button> -->
+
 <style>
     .rightText {
         color: rgba(254, 255, 198);

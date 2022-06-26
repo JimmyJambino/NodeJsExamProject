@@ -4,20 +4,17 @@
 		Link,
 		Route,
 		navigate,
-		useNavigate,
 	} from "svelte-navigator";
 	import { SvelteToast } from "@zerodevx/svelte-toast";
-	import { onMount } from "svelte";
 	import { io } from "socket.io-client";
 
 	import Banner from "./components/Banner.svelte";
 	import LoginForm from "./components/LoginForm.svelte";
-	import {fly} from "svelte/transition"
 	import FrontPage from "./pages/FrontPage.svelte";
 	import Store from "./pages/StorePage.svelte";
 	import Profile from "./pages/Profile.svelte";
 	import MerchStorePage from "./pages/MerchStorePage.svelte";
-	import PrivateRoute from "./pages/PrivateRoute.svelte";
+	import PrivateRoute from "./components/PrivateRoute.svelte";
 	import PlayPage from "./pages/PlayPage.svelte";
 	import RegisterPage from "./pages/RegisterPage.svelte";
 	import RoomPage from "./pages/RoomPage.svelte";
@@ -27,7 +24,6 @@
 	import PaymentPage from "./pages/PaymentPage.svelte";
 	import ThankYouPage from "./pages/ThankYouPage.svelte";
 	import PaymentFailed from "./pages/PaymentFailed.svelte";
-	import TestPage from "./pages/TestPage.svelte";
 	import DisplayMerchPage from "./pages/DisplayMerchPage.svelte";
 
 	import { isLoggedIn, playTime, cartList } from "./store/generalStore.js";
@@ -135,9 +131,6 @@
 		</Route>
 		<Route path="player">
 			<PlayerPage {socket} />
-		</Route>
-		<Route path="test">
-			<TestPage />
 		</Route>
 	</Router>
 </main>
